@@ -1,0 +1,32 @@
+@startuml
+
+skinparam componentStyle rectangle
+
+package "WarnMe" {
+
+  database "MySql" as db {
+    [AlertTable]
+  }
+
+  [Repository]
+  [AlertService] as service
+  [TwitterClient] as tClient
+  [BurzeClient] as bClient
+
+}
+
+[AlertTable] <-- [Repository]
+[Repository] --> service
+service --> tClient
+service --> bClient
+
+[tClient] --> [Twitter] : HTTP
+note bottom of [Twitter] : REST API
+
+[bClient] --> [BurzeDzisNet] : HTTP
+note right of [BurzeDzisNet] : SOAP API
+
+skinparam actorStyle awesome
+':User: --> [AlertController]
+
+@enduml
