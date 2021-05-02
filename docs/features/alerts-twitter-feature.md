@@ -33,7 +33,5 @@ Application needs to fetch and store image files with meteo warnings maps
 
 ### Acceptance Criteria:
 
-- Application will store image files of meteo alerts in the application file system
-- In the database will store information about path of file and filename
+- Application will store image files of meteo alerts in the database
 - The maximum size of image file should be set
-- Filename will be automatically generated based on rule: `twitterchannel_datetime_nameofalert.fileextension`

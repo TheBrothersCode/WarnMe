@@ -1,4 +1,4 @@
-## SMS notification Feature
+## Admin panel feature
 
 ### Story:
 As an admin of application, I want to delete, create or edit any user account so that I can manage users of application
