@@ -1,0 +1,4 @@
+#Tweet details
+GET https://api.twitter.com/2/tweets/1389579275670593539?tweet.fields=attachments,author_id,context_annotations,created_at,entities,geo,id,lang,source,text&expansions=attachments.media_keys&media.fields=type,url,width,height
+Authorization: Bearer {{token}}
+Cookie: personalization_id="{{personalization_id}}"; guest_id={{guest_id}}
