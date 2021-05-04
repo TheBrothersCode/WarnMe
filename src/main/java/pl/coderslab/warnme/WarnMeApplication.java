@@ -10,4 +10,8 @@ public class WarnMeApplication {
 		SpringApplication.run(WarnMeApplication.class, args);
 	}
 
+	public String sayHello(String name) {
+		return "Hi " + name;
+	}
+
 }
