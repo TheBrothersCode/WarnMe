@@ -2,3 +2,9 @@
 GET https://api.twitter.com/2/tweets/1389579275670593539?tweet.fields=attachments,author_id,context_annotations,created_at,entities,geo,id,lang,source,text&expansions=attachments.media_keys&media.fields=type,url,width,height
 Authorization: Bearer {{token}}
 Cookie: personalization_id="{{personalization_id}}"; guest_id={{guest_id}}
+
+###
+#Tweets from specific user (1139834822011084801) and specific period of time (start_time, end_time)
+GET https://api.twitter.com/2/users/1139834822011084801/tweets?max_results=100&start_time=2021-05-03T00:00:00.00Z&end_time=2021-05-05T00:00:00.00Z&tweet.fields=created_at,id,text,entities
+Authorization: Bearer {{token}}
+Cookie: personalization_id="{{personalization_id}}"; guest_id={{guest_id}}
