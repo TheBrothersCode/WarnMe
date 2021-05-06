@@ -1,4 +1,4 @@
-package pl.coderslab.warnme;
+package com.thebrotherscode.warnme;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
