@@ -1,9 +1,10 @@
 package com.thebrotherscode.warnme.twitter.api;
 
-public class AuthorDto {
-    private String id;
-    private String name;
-    private String username;
+class AuthorDto {
+
+    private final String id;
+    private final String name;
+    private final String username;
 
     public static AuthorDto fake() {
         return new AuthorDto("1", "imgw", "imgw ipb");
@@ -19,23 +20,12 @@ public class AuthorDto {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
 }

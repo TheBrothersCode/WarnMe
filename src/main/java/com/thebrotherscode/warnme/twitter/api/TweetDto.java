@@ -1,9 +1,9 @@
 package com.thebrotherscode.warnme.twitter.api;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class TweetDto {
+class TweetDto {
+
     private final String alertId;
     private final String text;
     private final AuthorDto author;
@@ -26,8 +26,8 @@ public class TweetDto {
         this.author = author;
         this.creationDate = creationDate;
         this.tweetType = tweetType;
-        this.mediaList = mediaList;
-        this.hashTags = hashTags;
+        this.mediaList = List.copyOf(mediaList);
+        this.hashTags = List.copyOf(hashTags);
     }
 
     public String getAlertId() {
