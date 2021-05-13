@@ -13,4 +13,9 @@ public class FakeMeteoAlertDataAccessService implements MeteoAlertDao {
     public void saveMeteoAlert(MeteoAlert meteoAlert) {
         DB.add(meteoAlert);
     }
+
+    @Override
+    public boolean exists(MeteoAlert meteoAlert) {
+        return true;
+    }
 }

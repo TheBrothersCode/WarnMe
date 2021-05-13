@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MeteoAlertService {
     private final MeteoAlertDao meteoAlertDao;
@@ -13,17 +15,16 @@ public class MeteoAlertService {
         this.meteoAlertDao = meteoAlertDao;
     }
 
-    public void getMeteoAlertFromTweet(Tweet tweet) {
-        int level = checkLevelOfAlertFromTweet(tweet);
-        String category = getCategoryFromHashtags(tweet);
-        meteoAlertDao.saveMeteoAlert(new MeteoAlert(1l, level, category));
+    public void save(MeteoAlert meteoAlert) {
+        meteoAlertDao.saveMeteoAlert(meteoAlert);
     }
 
-    private String getCategoryFromHashtags(Tweet tweet) {
-        return "burze";
+    public boolean isNew(MeteoAlert meteoAlert) {
+        return meteoAlertDao.exists(meteoAlert);
     }
 
-    private int checkLevelOfAlertFromTweet(Tweet tweet) {
-        return 1;
+    public void save(List<MeteoAlert> meteoAlerts) {
+        //logika tylko nowe
+        //save z dao
     }
 }
