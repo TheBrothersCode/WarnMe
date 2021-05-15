@@ -4,7 +4,7 @@ import java.util.List;
 
 class TweetDto {
 
-    private final String alertId;
+    private final String tweetId;
     private final String text;
     private final AuthorDto author;
     private final String creationDate;
@@ -15,8 +15,8 @@ class TweetDto {
         return new TweetDto(id, "testowy tweet z dupy"+id, AuthorDto.fake(), "2021-05-06",  List.of("url1", "url2"), List.of("burze"));
     }
 
-    private TweetDto(String alertId, String text, AuthorDto author, String creationDate,  List<String> mediaList, List<String> hashTags) {
-        this.alertId = alertId;
+    private TweetDto(String tweetId, String text, AuthorDto author, String creationDate, List<String> mediaList, List<String> hashTags) {
+        this.tweetId = tweetId;
         this.text = text;
         this.author = author;
         this.creationDate = creationDate;
@@ -24,8 +24,8 @@ class TweetDto {
         this.hashTags = List.copyOf(hashTags);
     }
 
-    public String getAlertId() {
-        return alertId;
+    public String getTweetId() {
+        return tweetId;
     }
 
     public String getText() {
