@@ -5,12 +5,14 @@ public class MeteoAlert {
     private int level;
     private String category;
     private String creationDate;
+    private String description;
 
-    public MeteoAlert(Long id, int level, String category, String creationDate) {
+    public MeteoAlert(Long id, int level, String category, String creationDate, String description) {
         this.id = id;
         this.level = level;
         this.category = category;
         this.creationDate = creationDate;
+        this.description = description;
     }
 
     public String getCreationDate() {
@@ -45,4 +47,11 @@ public class MeteoAlert {
         this.category = category;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 }
