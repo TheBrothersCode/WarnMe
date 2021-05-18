@@ -36,22 +36,19 @@ public class TweetService {
     private MeteoAlert mapToMeteoAlert(TweetDto tweetDto) {
         String alertCategory = getAlertCategory(tweetDto);
         int alertLevel = getAlertLevel(tweetDto);
-        String alertDescription = getAlertDescription(tweetDto);
+        var source = "Twitter";
+
         return new MeteoAlert(
-                Long.parseLong(tweetDto.getTweetId()),
                 alertLevel,
                 alertCategory,
                 tweetDto.getCreationDate(),
-                alertDescription
-        );
+                tweetDto.getText(),
+                source,
+                Long.parseLong(tweetDto.getTweetId()));
     }
 
     private TweetType getTweetType(TweetDto tweetDto) {
         return TweetType.METEO_ALERT;
-    }
-
-    private String getAlertDescription(TweetDto tweetDto) {
-        return tweetDto.getText();
     }
 
     private String getAlertCategory(TweetDto tweetDto) {

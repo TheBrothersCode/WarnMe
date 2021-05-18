@@ -6,13 +6,16 @@ public class MeteoAlert {
     private String category;
     private String creationDate;
     private String description;
+    private String source;
+    private Long sourceId;
 
-    public MeteoAlert(Long id, int level, String category, String creationDate, String description) {
-        this.id = id;
+    public MeteoAlert(int level, String category, String creationDate, String description, String source, Long sourceId) {
         this.level = level;
         this.category = category;
         this.creationDate = creationDate;
         this.description = description;
+        this.source = source;
+        this.sourceId = sourceId;
     }
 
     public String getCreationDate() {
