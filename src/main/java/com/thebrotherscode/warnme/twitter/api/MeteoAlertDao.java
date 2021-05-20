@@ -7,5 +7,7 @@ public interface MeteoAlertDao {
 
     boolean exists(MeteoAlert meteoAlert);
 
+    boolean existsByExternalId(MeteoAlert meteoAlert);
+
     List<MeteoAlert> fetchLatest(int number);
 }

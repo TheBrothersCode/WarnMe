@@ -22,6 +22,17 @@ public class FakeMeteoAlertDataAccess implements MeteoAlertDao {
     }
 
     @Override
+    public boolean existsByExternalId(MeteoAlert newAlert) {
+        for(MeteoAlert meteoAlert : DB_METEO_ALERTS) {
+            String alertOriginalId = newAlert.getAlertOriginalId();
+            if(meteoAlert.getAlertOriginalId().equals(alertOriginalId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public List<MeteoAlert> fetchLatest(int number) {
         return DB_METEO_ALERTS.stream()
                 .sorted(Comparator.comparing(MeteoAlert::getCreationDate).reversed())

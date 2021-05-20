@@ -8,15 +8,35 @@ public class MeteoAlert {
     private String category;
     private String creationDate;
     private String description;
-    private AlertSource alertSource;
+    private AlertOrigin alertOrigin;
     private List<String> media;
 
-    public MeteoAlert(int level, String category, String creationDate, String description, AlertSource alertSource, List<String> media) {
+    public MeteoAlert(int level, String category, String creationDate, String description, AlertOrigin alertOrigin, List<String> media) {
         this.level = level;
         this.category = category;
         this.creationDate = creationDate;
         this.description = description;
-        this.alertSource = alertSource;
+        this.alertOrigin = alertOrigin;
+        this.media = media;
+    }
+
+    public AlertOrigin getAlertSource() {
+        return alertOrigin;
+    }
+
+    public String getAlertOriginalId() {
+        return alertOrigin.getOriginalId();
+    }
+
+    public void setAlertSource(AlertOrigin alertOrigin) {
+        this.alertOrigin = alertOrigin;
+    }
+
+    public List<String> getMedia() {
+        return media;
+    }
+
+    public void setMedia(List<String> media) {
         this.media = media;
     }
 
