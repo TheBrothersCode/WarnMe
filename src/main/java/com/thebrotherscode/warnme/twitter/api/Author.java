@@ -1,21 +1,21 @@
 package com.thebrotherscode.warnme.twitter.api;
 
 public class Author {
-    private Long id;
+    private String id;
     private String name;
     private String username;
 
-    public Author(Long id, String name, String username) {
+    public Author(String id, String name, String username) {
         this.id = id;
         this.name = name;
         this.username = username;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 

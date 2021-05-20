@@ -17,8 +17,15 @@ public class TweetService {
         this.twitterClient = twitterClient;
     }
 
-    public void syncTweets() {
-        List<TweetDto> allTweets = twitterClient.fetchAllTweets();
+    public void syncTweets(String twitterUserId) {
+        List<TweetDto> allTweets = twitterClient.fetchAllTweets(twitterUserId);
+
+        //check id fetched Tweets if they've already been handled
+
+        //if not save these id's
+
+        //fetch meteo alerts from tweets
+
 
         List<MeteoAlert> meteoAlerts = allTweets.stream()
                 .filter(this::isMeteoAlert)
@@ -43,8 +50,7 @@ public class TweetService {
                 alertCategory,
                 tweetDto.getCreationDate(),
                 tweetDto.getText(),
-                source,
-                Long.parseLong(tweetDto.getTweetId()));
+                source);
     }
 
     private TweetType getTweetType(TweetDto tweetDto) {

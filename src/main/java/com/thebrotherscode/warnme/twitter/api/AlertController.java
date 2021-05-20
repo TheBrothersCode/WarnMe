@@ -18,7 +18,9 @@ public class AlertController {
 
     @PostMapping
     public void fetchAllAlerts() {
-        tweetService.syncTweets();
+        //lack of Twitter username
+        String twitterUserId="1";
+        tweetService.syncTweets(twitterUserId);
         //burzeService.fetchStormsAlerts()
     }
 
