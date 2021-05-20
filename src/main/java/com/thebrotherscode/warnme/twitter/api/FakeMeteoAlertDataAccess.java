@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 @Repository("fakeDao")
 public class FakeMeteoAlertDataAccess implements MeteoAlertDao {
 
-    private static final List<MeteoAlert> DB = new ArrayList<>();
+    private static final List<MeteoAlert> DB_METEO_ALERTS = new ArrayList<>();
     @Override
     public void save(MeteoAlert meteoAlert) {
-        DB.add(meteoAlert);
+        DB_METEO_ALERTS.add(meteoAlert);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class FakeMeteoAlertDataAccess implements MeteoAlertDao {
 
     @Override
     public List<MeteoAlert> fetchLatest(int number) {
-        return DB.stream()
+        return DB_METEO_ALERTS.stream()
                 .sorted(Comparator.comparing(MeteoAlert::getCreationDate).reversed())
                 .limit(number)
                 .collect(Collectors.toList());

@@ -1,19 +1,23 @@
 package com.thebrotherscode.warnme.twitter.api;
 
+import java.util.List;
+
 public class MeteoAlert {
     private Long id;
     private int level;
     private String category;
     private String creationDate;
     private String description;
-    private String source;
+    private AlertSource alertSource;
+    private List<String> media;
 
-    public MeteoAlert(int level, String category, String creationDate, String description, String source) {
+    public MeteoAlert(int level, String category, String creationDate, String description, AlertSource alertSource, List<String> media) {
         this.level = level;
         this.category = category;
         this.creationDate = creationDate;
         this.description = description;
-        this.source = source;
+        this.alertSource = alertSource;
+        this.media = media;
     }
 
     public String getCreationDate() {

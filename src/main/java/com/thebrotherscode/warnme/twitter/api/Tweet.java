@@ -4,15 +4,15 @@ package com.thebrotherscode.warnme.twitter.api;
 import java.util.List;
 
 public class Tweet {
-    private Long id;
+    private String tweetId;
     private String text;
     private Author author;
     private String creationDate;
     private List<String> mediaList;
     private List<String> hashtags;
 
-    public Tweet(Long id, String text, Author author, String creationDate, List<String> mediaList, List<String> hashtags) {
-        this.id = id;
+    public Tweet(String tweetId, String text, Author author, String creationDate, List<String> mediaList, List<String> hashtags) {
+        this.tweetId = tweetId;
         this.text = text;
         this.author = author;
         this.creationDate = creationDate;
@@ -24,12 +24,12 @@ public class Tweet {
 
     }
 
-    public Long getId() {
-        return id;
+    public String getTweetId() {
+        return tweetId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setTweetId(String tweetId) {
+        this.tweetId = tweetId;
     }
 
     public String getText() {

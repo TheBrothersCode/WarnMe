@@ -10,29 +10,50 @@ import java.util.stream.Collectors;
 public class TweetService {
     private final MeteoAlertService meteoAlertService;
     private final TwitterClient twitterClient;
+    private final FakeTwitterDataAccess fakeTwitterDataAccess;
 
     @Autowired
-    public TweetService(MeteoAlertService meteoAlertService, TwitterClient twitterClient) {
+    public TweetService(MeteoAlertService meteoAlertService, TwitterClient twitterClient, FakeTwitterDataAccess fakeTwitterDataAccess) {
         this.meteoAlertService = meteoAlertService;
         this.twitterClient = twitterClient;
+        this.fakeTwitterDataAccess = fakeTwitterDataAccess;
     }
 
     public void syncTweets(String twitterUserId) {
         List<TweetDto> allTweets = twitterClient.fetchAllTweets(twitterUserId);
 
         //check id fetched Tweets if they've already been handled
-
+        List<TweetDto> filteredTweets = allTweets.stream()
+                .filter(tweetDto -> fakeTwitterDataAccess.exists(tweetDto.getTweetId()))
+                .collect(Collectors.toList());
         //if not save these id's
+
 
         //fetch meteo alerts from tweets
 
 
-        List<MeteoAlert> meteoAlerts = allTweets.stream()
+        List<MeteoAlert> meteoAlerts = filteredTweets.stream()
                 .filter(this::isMeteoAlert)
+                .peek(this::mapToTweet)
                 .map(this::mapToMeteoAlert)
                 .collect(Collectors.toList());
 
         meteoAlertService.save(meteoAlerts);
+    }
+
+    private Tweet mapToTweet(TweetDto tweetDto) {
+        Tweet tweet = new Tweet();
+        tweet.setTweetId(tweetDto.getTweetId());
+        tweet.setText(tweetDto.getText());
+        tweet.setAuthor(mapToAuthor(tweetDto.getAuthor()));
+        tweet.setCreationDate(tweetDto.getCreationDate());
+        tweet.setMediaList(tweetDto.getMediaList());
+        tweet.setHashtags(tweetDto.getHashTags());
+        return tweet;
+    }
+
+    private Author mapToAuthor(AuthorDto authorDto) {
+        return new Author(authorDto.getId(), authorDto.getName(), authorDto.getUsername());
     }
 
     private boolean isMeteoAlert(TweetDto tweetDto) {
@@ -43,14 +64,15 @@ public class TweetService {
     private MeteoAlert mapToMeteoAlert(TweetDto tweetDto) {
         String alertCategory = getAlertCategory(tweetDto);
         int alertLevel = getAlertLevel(tweetDto);
-        var source = "Twitter";
+        var source = new AlertSource("Twitter", tweetDto.getTweetId());
 
         return new MeteoAlert(
                 alertLevel,
                 alertCategory,
                 tweetDto.getCreationDate(),
                 tweetDto.getText(),
-                source);
+                source,
+                tweetDto.getMediaList());
     }
 
     private TweetType getTweetType(TweetDto tweetDto) {
