@@ -1,19 +1,20 @@
 package com.thedariusz.warnme.twitter.api;
 
 import java.util.List;
+import java.util.Set;
 
 public class MeteoAlert {
     private Long id;
     private int level;
-    private String category;
+    private Set<String> categories;
     private String creationDate;
     private String description;
     private AlertOrigin alertOrigin;
     private List<String> media;
 
-    public MeteoAlert(int level, String category, String creationDate, String description, AlertOrigin alertOrigin, List<String> media) {
+    public MeteoAlert(int level, Set<String> categories, String creationDate, String description, AlertOrigin alertOrigin, List<String> media) {
         this.level = level;
-        this.category = category;
+        this.categories = categories;
         this.creationDate = creationDate;
         this.description = description;
         this.alertOrigin = alertOrigin;
@@ -64,16 +65,16 @@ public class MeteoAlert {
         this.level = level;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
     public String getDescription() {
         return description;
+    }
+
+    public Set<String> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set<String> categories) {
+        this.categories = categories;
     }
 
     public void setDescription(String description) {
@@ -85,7 +86,7 @@ public class MeteoAlert {
         return "MeteoAlert{" +
                 "id=" + id +
                 ", level=" + level +
-                ", category='" + category + '\'' +
+                ", categories='" + categories + '\'' +
                 ", creationDate='" + creationDate + '\'' +
                 ", description='" + description + '\'' +
                 ", alertOrigin=" + alertOrigin +

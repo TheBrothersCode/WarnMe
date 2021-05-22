@@ -1,16 +1,22 @@
 package com.thedariusz.warnme.twitter.api;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class TweetService {
     private static final String SOURCE_NAME = "Twitter";
+    private static final Logger logger = LoggerFactory.getLogger(TweetService.class);
     private static final Set<String> METEO_KEYWORDS =
             Set.of("meteo", "weather", "imgw", "pogoda", "burze", "burza",
                     "upał", "mróz", "meteoimgw", "przymrozki", "temperatura", "hydro",
@@ -55,7 +61,7 @@ public class TweetService {
     private MeteoAlert mapToMeteoAlert(TweetDto tweetDto) {
         return new MeteoAlert(
                 getAlertLevel(tweetDto),
-                getAlertCategory(tweetDto),
+                getAlertCategories(tweetDto),
                 tweetDto.getCreationDate(),
                 tweetDto.getText(),
                 new AlertOrigin(SOURCE_NAME, tweetDto.getAuthor().getName(), tweetDto.getTweetId()),
@@ -63,36 +69,55 @@ public class TweetService {
     }
 
     private TweetType getTweetType(TweetDto tweetDto) {
-        TweetType tweetType = TweetType.OTHER;
         List<String> hashTags = tweetDto.getHashTags();
-        for (String tag : hashTags) {
-            if (METEO_KEYWORDS.contains(tag)) {
-                tweetType = TweetType.METEO;
-                break;
-            }
-        }
+        TweetType tweetType = hashTags
+                .stream()
+                .map(tag -> tag.toLowerCase(Locale.ROOT))
+                .anyMatch(METEO_KEYWORDS::contains) ? TweetType.METEO:TweetType.OTHER;
 
-        if (tweetType.equals(TweetType.METEO)) {
-            for (String tag : hashTags) {
-                if (ALERTS_KEYWORDS.contains(tag)) {
-                    tweetType = TweetType.METEO_ALERT;
-                    break;
-                }
-            }
+        boolean hasMeteoAlertKeywords = hashTags
+                .stream()
+                .map(tag -> tag.toLowerCase(Locale.ROOT))
+                .anyMatch(ALERTS_KEYWORDS::contains);
+
+        if (tweetType.equals(TweetType.METEO) && hasMeteoAlertKeywords) {
+            tweetType = TweetType.METEO_ALERT;
         }
 
         return tweetType;
     }
 
-    private List<String> getAlertCategory(TweetDto tweetDto) {
+    private Set<String> getAlertCategories(TweetDto tweetDto) {
         List<String> hashTags = tweetDto.getHashTags();
-        return hashTags
+        String tweetText = tweetDto.getText().toLowerCase(Locale.ROOT);
+        List<String> categoriesFromHashtags = hashTags
                 .stream()
                 .filter(METEO_ALERTS_CATEGORIES::contains)
                 .collect(Collectors.toList());
+
+        List<String> categoriesFromTweetText = METEO_ALERTS_CATEGORIES
+                .stream()
+                .filter(tweetText::contains)
+                .collect(Collectors.toList());
+
+        return Stream.of(categoriesFromTweetText, categoriesFromHashtags)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toSet());
     }
 
     private int getAlertLevel(TweetDto tweetDto) {
-        return 1;
+        var alertLevel = 0;
+        var textAlertLevelPattern = "(\\d)\\s*(?=stopni|°)";
+        var pattern = Pattern.compile(textAlertLevelPattern);
+        var matcher = pattern.matcher(tweetDto.getText());
+
+        try {
+            if (matcher.find()) {
+                alertLevel = Integer.parseInt(matcher.group(1));
+            }
+        } catch (NumberFormatException e) {
+            logger.error("Found text alert level pattern but couldn't be convert to integer!", e);
+        }
+        return alertLevel ;
     }
 }
