@@ -1,4 +1,4 @@
-package com.thebrotherscode.warnme.twitter.api;
+package com.thedariusz.warnme.twitter.api;
 
 enum TweetType {
     METEO,

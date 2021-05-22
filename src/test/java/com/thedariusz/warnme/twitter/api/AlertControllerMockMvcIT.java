@@ -1,6 +1,7 @@
-package com.thebrotherscode.warnme.twitter.api;
+package com.thedariusz.warnme.twitter.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.thebrotherscode.warnme.twitter.api.IntegrationTestBase.TweetDtoTest.AuthorDtoTest;
+import static com.thedariusz.warnme.twitter.api.IntegrationTestBase.TweetDtoTest.AuthorDtoTest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -41,7 +42,7 @@ class AlertControllerMockMvcIT extends IntegrationTestBase {
         final String jsonResponse = mvcResult.getResponse().getContentAsString();
         final List<TweetDtoTest> actualTweetList = Arrays.asList(objectMapper.readValue(jsonResponse, TweetDtoTest[].class));
 
-        assertThat(actualTweetList)
+        Assertions.assertThat(actualTweetList)
                 .usingRecursiveFieldByFieldElementComparator()
                 .containsExactly(
                         expectedMeteoAlert(),
@@ -55,7 +56,6 @@ class AlertControllerMockMvcIT extends IntegrationTestBase {
                 "test",
                 new AuthorDtoTest("1", "imgw", "imgw ipb"),
                 "2021-05-06",
-                "METEO",
                 List.of("url1", "url2"),
                 List.of("burze")
         );
@@ -67,7 +67,6 @@ class AlertControllerMockMvcIT extends IntegrationTestBase {
                 "test",
                 new AuthorDtoTest("1", "imgw", "imgw ipb"),
                 "2021-05-06",
-                "OTHER",
                 List.of("photo1", "photo2"),
                 List.of("burze")
         );

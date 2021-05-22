@@ -1,4 +1,4 @@
-package com.thebrotherscode.warnme.twitter.api;
+package com.thedariusz.warnme.twitter.api;
 
 class AuthorDto {
 
@@ -6,8 +6,8 @@ class AuthorDto {
     private final String name;
     private final String username;
 
-    public static AuthorDto fake() {
-        return new AuthorDto("1", "imgw", "imgw ipb");
+    public static AuthorDto fake(String twitterUserId) {
+        return new AuthorDto(twitterUserId, "imgw", "imgw ipb");
     }
 
     private AuthorDto(String id, String name, String username) {
