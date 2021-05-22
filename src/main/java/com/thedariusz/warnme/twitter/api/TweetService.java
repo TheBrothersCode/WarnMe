@@ -16,7 +16,8 @@ public class TweetService {
                     "deszcz", "wichura", "grad", "ulewa",
                     "śnieg", " prognoza");
     private static final Set<String> METEO_ALERTS_KEYWORDS =
-            Set.of("ostrzegamy", "ostrzeżenia", "ostrzeżenie", "alert", "meteoalert", "uwaga", "alertrcb");
+            Set.of("ostrzegamy", "ostrzeżenia", "ostrzeżenie", "alert",
+                    "meteoalert", "uwaga", "alertrcb", "burzaalert");
 
     private final MeteoAlertService meteoAlertService;
     private final TwitterClient twitterClient;
