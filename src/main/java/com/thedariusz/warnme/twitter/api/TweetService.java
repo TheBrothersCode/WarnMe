@@ -4,11 +4,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class TweetService {
     private static final String SOURCE_NAME = "Twitter";
+    private static final Set<String> METEO_KEYWORDS =
+            Set.of("meteo", "weather", "imgw", "pogoda", "burze", "burza",
+                    "upał", "mróz", "meteoimgw", "przymrozki", "temperatura", "hydro",
+                    "deszcz", "wichura", "grad", "ulewa",
+                    "śnieg", " prognoza");
+    private static final Set<String> METEO_ALERTS_KEYWORDS =
+            Set.of("ostrzegamy", "ostrzeżenia", "ostrzeżenie", "alert", "meteoalert", "uwaga", "alertrcb");
+
     private final MeteoAlertService meteoAlertService;
     private final TwitterClient twitterClient;
 
@@ -31,7 +40,7 @@ public class TweetService {
 
     private boolean isMeteoAlert(TweetDto tweetDto) {
         var tweetType = getTweetType(tweetDto);
-        return TweetType.METEO_ALERT.equals(tweetType); //only MeteoAlert for now
+        return TweetType.METEO_ALERT.equals(tweetType);
     }
 
     private MeteoAlert mapToMeteoAlert(TweetDto tweetDto) {
@@ -45,7 +54,25 @@ public class TweetService {
     }
 
     private TweetType getTweetType(TweetDto tweetDto) {
-        return TweetType.METEO_ALERT;
+        TweetType tweetType = TweetType.OTHER;
+        List<String> hashTags = tweetDto.getHashTags();
+        for (String tag : hashTags) {
+            if (METEO_KEYWORDS.contains(tag)) {
+                tweetType = TweetType.METEO;
+                break;
+            }
+        }
+
+        if (tweetType.equals(TweetType.METEO)) {
+            for (String tag : hashTags) {
+                if (METEO_ALERTS_KEYWORDS.contains(tag)) {
+                    tweetType = TweetType.METEO_ALERT;
+                    break;
+                }
+            }
+        }
+
+        return tweetType;
     }
 
     private String getAlertCategory(TweetDto tweetDto) {

@@ -34,4 +34,13 @@ public class AlertOrigin {
     public void setSourceDesc(String sourceDesc) {
         this.sourceDesc = sourceDesc;
     }
+
+    @Override
+    public String toString() {
+        return "AlertOrigin{" +
+                "source='" + sourceName + '\'' +
+                ", description='" + sourceDesc + '\'' +
+                ", originalId='" + originalId + '\'' +
+                '}';
+    }
 }

@@ -1,5 +1,7 @@
 package com.thedariusz.warnme.twitter.api;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -9,12 +11,13 @@ import java.util.stream.Collectors;
 
 @Repository("fakeDao")
 public class FakeMeteoAlertDataAccess implements MeteoAlertDao {
-
+    private static final Logger logger = LoggerFactory.getLogger(FakeMeteoAlertDataAccess.class);
     private static final List<MeteoAlert> DB_METEO_ALERTS = new ArrayList<>();
 
     @Override
     public void save(MeteoAlert meteoAlert) {
         DB_METEO_ALERTS.add(meteoAlert);
+        logger.info(meteoAlert.toString());
     }
 
     @Override

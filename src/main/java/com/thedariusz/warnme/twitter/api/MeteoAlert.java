@@ -79,4 +79,17 @@ public class MeteoAlert {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return "MeteoAlert{" +
+                "id=" + id +
+                ", level=" + level +
+                ", category='" + category + '\'' +
+                ", creationDate='" + creationDate + '\'' +
+                ", description='" + description + '\'' +
+                ", alertOrigin=" + alertOrigin +
+                ", media=" + media +
+                '}';
+    }
 }
