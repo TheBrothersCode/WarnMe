@@ -1,4 +1,4 @@
-package com.thebrotherscode.warnme.twitter.api;
+package com.thedariusz.warnme.twitter.api;
 
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 public class FakeMeteoAlertDataAccess implements MeteoAlertDao {
 
     private static final List<MeteoAlert> DB_METEO_ALERTS = new ArrayList<>();
+
     @Override
     public void save(MeteoAlert meteoAlert) {
         DB_METEO_ALERTS.add(meteoAlert);
@@ -23,9 +24,9 @@ public class FakeMeteoAlertDataAccess implements MeteoAlertDao {
 
     @Override
     public boolean existsByExternalId(MeteoAlert newAlert) {
-        for(MeteoAlert meteoAlert : DB_METEO_ALERTS) {
+        for (MeteoAlert meteoAlert : DB_METEO_ALERTS) {
             String alertOriginalId = newAlert.getAlertOriginalId();
-            if(meteoAlert.getAlertOriginalId().equals(alertOriginalId)) {
+            if (meteoAlert.getAlertOriginalId().equals(alertOriginalId)) {
                 return true;
             }
         }

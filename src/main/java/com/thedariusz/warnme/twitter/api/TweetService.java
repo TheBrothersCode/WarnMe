@@ -1,4 +1,4 @@
-package com.thebrotherscode.warnme.twitter.api;
+package com.thedariusz.warnme.twitter.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

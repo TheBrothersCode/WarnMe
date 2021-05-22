@@ -1,6 +1,7 @@
-package com.thebrotherscode.warnme.twitter.api;
+package com.thedariusz.warnme.twitter.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,9 +18,9 @@ public class AlertController {
     }
 
     @PostMapping
-    public void fetchAllAlerts() {
-        //lack of Twitter username
-        String twitterUserId="1";
+    @RequestMapping("/{id}")
+    public void fetchAllAlerts(@PathVariable("id") String twitterUserId) {
+//        String twitterUserId="1";
         tweetService.syncTweets(twitterUserId);
         //burzeService.fetchStormsAlerts()
     }

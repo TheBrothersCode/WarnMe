@@ -1,4 +1,4 @@
-package com.thebrotherscode.warnme.twitter.api;
+package com.thedariusz.warnme.twitter.api;
 
 public class Author {
     private String id;

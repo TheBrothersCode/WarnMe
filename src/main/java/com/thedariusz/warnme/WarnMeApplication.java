@@ -1,4 +1,4 @@
-package com.thebrotherscode.warnme;
+package com.thedariusz.warnme;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

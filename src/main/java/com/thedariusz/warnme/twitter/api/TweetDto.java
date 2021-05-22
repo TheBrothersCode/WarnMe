@@ -1,4 +1,4 @@
-package com.thebrotherscode.warnme.twitter.api;
+package com.thedariusz.warnme.twitter.api;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ class TweetDto {
     private final List<String> hashTags;
 
     public static TweetDto fakeTweet(String id, String creationDate, String twitterUserId) {
-        return new TweetDto(id, "testowy tweet z dupy"+id, AuthorDto.fake(twitterUserId), creationDate,  List.of("url1", "url2"), List.of("burze"));
+        return new TweetDto(id, "testowy tweet numer "+id, AuthorDto.fake(twitterUserId), creationDate,  List.of("url1", "url2"), List.of("burze"));
     }
 
     private TweetDto(String tweetId, String text, AuthorDto author, String creationDate, List<String> mediaList, List<String> hashTags) {
