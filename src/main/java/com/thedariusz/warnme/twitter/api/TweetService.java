@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -55,29 +56,26 @@ public class TweetService {
     }
 
     private TweetType getTweetType(TweetDto tweetDto) {
-        TweetType tweetType = TweetType.OTHER;
         List<String> hashTags = tweetDto.getHashTags();
-        for (String tag : hashTags) {
-            if (METEO_KEYWORDS.contains(tag)) {
-                tweetType = TweetType.METEO;
-                break;
-            }
-        }
+        TweetType tweetType = hashTags
+                .stream()
+                .map(tag -> tag.toLowerCase(Locale.ROOT))
+                .anyMatch(METEO_KEYWORDS::contains) ? TweetType.METEO:TweetType.OTHER;
 
-        if (tweetType.equals(TweetType.METEO)) {
-            for (String tag : hashTags) {
-                if (METEO_ALERTS_KEYWORDS.contains(tag)) {
-                    tweetType = TweetType.METEO_ALERT;
-                    break;
-                }
-            }
+        boolean hasMeteoAlertKeywords = hashTags
+                .stream()
+                .map(tag -> tag.toLowerCase(Locale.ROOT))
+                .anyMatch(METEO_ALERTS_KEYWORDS::contains);
+
+        if (tweetType.equals(TweetType.METEO) && hasMeteoAlertKeywords) {
+            tweetType = TweetType.METEO_ALERT;
         }
 
         return tweetType;
     }
 
-    private String getAlertCategory(TweetDto tweetDto) {
-        return "burze";
+    private List<String> getAlertCategory(TweetDto tweetDto) {
+        return List.of("burze");
     }
 
     private int getAlertLevel(TweetDto tweetDto) {
