@@ -1,4 +1,7 @@
-package com.thedariusz.warnme.twitter.api;
+package com.thedariusz.warnme.twitter;
+
+import com.thedariusz.warnme.MeteoAlertMapper;
+import com.thedariusz.warnme.MeteoAlertService;
 
 import java.util.List;
 import java.util.Locale;
@@ -6,6 +9,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class TweetService {
+
+    private enum TweetType {
+        METEO,
+        METEO_ALERT,
+        OTHER
+    }
 
     private static final Set<String> METEO_KEYWORDS =
             Set.of("meteo", "weather", "imgw", "pogoda", "burze", "burza",

@@ -1,11 +1,12 @@
-package com.thedariusz.warnme.twitter.api;
+package com.thedariusz.warnme;
 
-public class AlertOrigin {
+public class MeteoAlertOrigin {
+
     private String sourceName;
     private String sourceDesc;
     private String originalId;
 
-    public AlertOrigin(String sourceName, String sourceDesc, String originalId) {
+    public MeteoAlertOrigin(String sourceName, String sourceDesc, String originalId) {
         this.sourceName = sourceName;
         this.sourceDesc = sourceDesc;
         this.originalId = originalId;

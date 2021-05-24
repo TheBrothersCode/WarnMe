@@ -1,9 +1,12 @@
-package com.thedariusz.warnme.twitter.api;
+package com.thedariusz.warnme.twitter.client;
+
+import com.thedariusz.warnme.twitter.TweetDto;
+import com.thedariusz.warnme.twitter.TwitterClient;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TwitterClient {
+public class SpringTwitterClient implements TwitterClient {
 
     public List<TweetDto> fetchAllTweets(String twitterUserId) {
         List<TweetDto> tweetDtos = new ArrayList<>();

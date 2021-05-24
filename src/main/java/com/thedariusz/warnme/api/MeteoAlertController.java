@@ -1,5 +1,6 @@
-package com.thedariusz.warnme.twitter.api;
+package com.thedariusz.warnme.api;
 
+import com.thedariusz.warnme.twitter.TweetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,12 +9,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/alerts")
-public class AlertController {
+public class MeteoAlertController {
 
     private final TweetService tweetService;
 
     @Autowired
-    public AlertController(TweetService tweetService) {
+    public MeteoAlertController(TweetService tweetService) {
         this.tweetService = tweetService;
     }
 

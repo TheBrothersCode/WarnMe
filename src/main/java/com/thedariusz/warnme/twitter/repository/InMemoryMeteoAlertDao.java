@@ -1,5 +1,7 @@
-package com.thedariusz.warnme.twitter.api;
+package com.thedariusz.warnme.twitter.repository;
 
+import com.thedariusz.warnme.twitter.MeteoAlert;
+import com.thedariusz.warnme.MeteoAlertDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

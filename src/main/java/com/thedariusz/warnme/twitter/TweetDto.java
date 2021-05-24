@@ -1,8 +1,8 @@
-package com.thedariusz.warnme.twitter.api;
+package com.thedariusz.warnme.twitter;
 
 import java.util.List;
 
-class TweetDto {
+public class TweetDto {
 
     private final String tweetId;
     private final String text;

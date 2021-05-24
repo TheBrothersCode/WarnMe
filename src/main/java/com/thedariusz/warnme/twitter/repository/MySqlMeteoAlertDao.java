@@ -1,7 +1,7 @@
-package com.thedariusz.warnme;
+package com.thedariusz.warnme.twitter.repository;
 
-import com.thedariusz.warnme.twitter.api.MeteoAlert;
-import com.thedariusz.warnme.twitter.api.MeteoAlertDao;
+import com.thedariusz.warnme.twitter.MeteoAlert;
+import com.thedariusz.warnme.MeteoAlertDao;
 
 import java.util.List;
 

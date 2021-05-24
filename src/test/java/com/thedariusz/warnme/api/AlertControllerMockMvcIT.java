@@ -1,4 +1,4 @@
-package com.thedariusz.warnme.twitter.api;
+package com.thedariusz.warnme.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.thedariusz.warnme.twitter.api.IntegrationTestBase.TweetDtoTest.AuthorDtoTest;
+import static com.thedariusz.warnme.api.IntegrationTestBase.TweetDtoTest.AuthorDtoTest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(controllers = AlertController.class)
+@WebMvcTest(controllers = MeteoAlertController.class)
 class AlertControllerMockMvcIT extends IntegrationTestBase {
 
     @Autowired

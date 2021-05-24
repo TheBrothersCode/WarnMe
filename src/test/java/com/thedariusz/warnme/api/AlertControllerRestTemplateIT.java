@@ -1,4 +1,4 @@
-package com.thedariusz.warnme.twitter.api;
+package com.thedariusz.warnme.api;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

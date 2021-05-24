@@ -1,4 +1,4 @@
-package com.thedariusz.warnme.twitter.api;
+package com.thedariusz.warnme.api;
 
 import java.util.List;
 

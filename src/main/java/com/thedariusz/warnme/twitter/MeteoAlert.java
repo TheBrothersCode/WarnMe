@@ -1,4 +1,6 @@
-package com.thedariusz.warnme.twitter.api;
+package com.thedariusz.warnme.twitter;
+
+import com.thedariusz.warnme.MeteoAlertOrigin;
 
 import java.util.List;
 
@@ -8,28 +10,28 @@ public class MeteoAlert {
     private List<String> categories;
     private String creationDate;
     private String description;
-    private AlertOrigin alertOrigin;
+    private MeteoAlertOrigin meteoAlertOrigin;
     private List<String> media;
 
-    public MeteoAlert(int level, List<String> categories, String creationDate, String description, AlertOrigin alertOrigin, List<String> media) {
+    public MeteoAlert(int level, List<String> categories, String creationDate, String description, MeteoAlertOrigin meteoAlertOrigin, List<String> media) {
         this.level = level;
         this.categories = categories;
         this.creationDate = creationDate;
         this.description = description;
-        this.alertOrigin = alertOrigin;
+        this.meteoAlertOrigin = meteoAlertOrigin;
         this.media = media;
     }
 
-    public AlertOrigin getAlertSource() {
-        return alertOrigin;
+    public MeteoAlertOrigin getAlertSource() {
+        return meteoAlertOrigin;
     }
 
     public String getAlertOriginalId() {
-        return alertOrigin.getOriginalId();
+        return meteoAlertOrigin.getOriginalId();
     }
 
-    public void setAlertSource(AlertOrigin alertOrigin) {
-        this.alertOrigin = alertOrigin;
+    public void setAlertSource(MeteoAlertOrigin meteoAlertOrigin) {
+        this.meteoAlertOrigin = meteoAlertOrigin;
     }
 
     public List<String> getMedia() {
@@ -88,7 +90,7 @@ public class MeteoAlert {
                 ", categories='" + categories + '\'' +
                 ", creationDate='" + creationDate + '\'' +
                 ", description='" + description + '\'' +
-                ", alertOrigin=" + alertOrigin +
+                ", alertOrigin=" + meteoAlertOrigin +
                 ", media=" + media +
                 '}';
     }

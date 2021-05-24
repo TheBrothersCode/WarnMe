@@ -1,6 +1,6 @@
-package com.thedariusz.warnme.twitter.api;
+package com.thedariusz.warnme.twitter;
 
-class AuthorDto {
+public class AuthorDto {
 
     private final String id;
     private final String name;
