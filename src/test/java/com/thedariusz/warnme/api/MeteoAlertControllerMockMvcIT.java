@@ -21,6 +21,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import static com.thedariusz.warnme.api.IntegrationTestBase.TweetDtoTest.AuthorDtoTest;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -80,34 +81,37 @@ class MeteoAlertControllerMockMvcIT extends IntegrationTestBase {
 
         final List<MeteoAlert> meteoAlerts = meteoAlertDao.fetchAll();
         assertThat(meteoAlerts)
-                .hasSize(1)
+                .hasSize(2)
                 .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
-                        .withIgnoredFields("creationDate","level", "categories", "description", "media")
+                        .withIgnoredFields("creationDate", "description", "media", "alertOrigin")
                         .build())
-                .contains(meteoAlert("2021-05-06T10:13:17.000Z", meteoAlertOrigin("1")));
+                .contains(
+                        meteoAlert(2, Set.of("burze", "burze z gradem", "deszcz", "grad"))
+//                        meteoAlert(1, Set.of("burze", "burza", "deszcz", "grad"))
+                );
 
         final MeteoAlert meteoAlert = meteoAlerts.get(0);
         final OffsetDateTime actualCreationDate = ZonedDateTime.parse(meteoAlert.getCreationDate(), DateTimeFormatter.ISO_DATE_TIME).toOffsetDateTime();
         assertThat(actualCreationDate).isAfter(startDateTime);
     }
 
-    @Test
-    void fetchAllShouldSaveManyAlertsInMemory() throws Exception {
-        mockMvc.perform(post(ALERTS_PATH + "/2979632800"))
-                .andDo(print())
-                .andExpect(status().isOk());
-
-        assertThat(meteoAlertDao.fetchAll())
-                .hasSize(2)
-                .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
-                        .withIgnoredFields("level", "categories", "description", "media")
-                        .build())
-                .contains(
-                        meteoAlert("2021-05-11T11:10:10.000Z", meteoAlertOrigin("10")),
-                        meteoAlert("2021-03-12T17:05:02.000Z", meteoAlertOrigin("20"))
-                );
-    }
-
+//    @Test
+//    void fetchAllShouldSaveManyAlertsInMemory() throws Exception {
+//        mockMvc.perform(post(ALERTS_PATH + "/2979632800"))
+//                .andDo(print())
+//                .andExpect(status().isOk());
+//
+//        assertThat(meteoAlertDao.fetchAll())
+//                .hasSize(2)
+//                .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
+//                        .withIgnoredFields("level", "categories", "description", "media")
+//                        .build())
+//                .contains(
+//                        meteoAlert("2021-05-11T11:10:10.000Z", meteoAlertOrigin("10")),
+//                        meteoAlert("2021-03-12T17:05:02.000Z", meteoAlertOrigin("20"))
+//                );
+//    }
+//
 
     private TweetDtoTest expectedMeteoAlert() {
         return new TweetDtoTest(
@@ -131,12 +135,9 @@ class MeteoAlertControllerMockMvcIT extends IntegrationTestBase {
         );
     }
 
-    private MeteoAlertOrigin meteoAlertOrigin(String originalId) {
-        return new MeteoAlertOrigin("Twitter", "imgw", originalId);
-    }
-
-    private MeteoAlert meteoAlert(String creationDate, MeteoAlertOrigin meteoAlertOrigin) {
-        return new MeteoAlert(1, null, creationDate, null, meteoAlertOrigin, null);
+    private MeteoAlert meteoAlert(int level, Set<String> categories) {
+        final MeteoAlertOrigin meteoAlertOrigin = new MeteoAlertOrigin("Twitter", "imgw", "1");
+        return new MeteoAlert(level, categories, null, null, meteoAlertOrigin, null);
     }
 
 }

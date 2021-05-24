@@ -4,27 +4,9 @@ import com.thedariusz.warnme.MeteoAlertMapper;
 import com.thedariusz.warnme.MeteoAlertService;
 
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class TweetService {
-
-    private enum TweetType {
-        METEO,
-        METEO_ALERT,
-        OTHER
-    }
-
-    private static final Set<String> METEO_KEYWORDS =
-            Set.of("meteo", "weather", "imgw", "pogoda", "burze", "burza",
-                    "upał", "mróz", "meteoimgw", "przymrozki", "temperatura", "hydro",
-                    "deszcz", "wichura", "grad", "ulewa",
-                    "śnieg", " prognoza");
-
-    private static final Set<String> METEO_ALERTS_KEYWORDS =
-            Set.of("ostrzegamy", "ostrzeżenia", "ostrzeżenie", "alert",
-                    "meteoalert", "uwaga", "alertrcb", "burzaalert");
 
     private final MeteoAlertService meteoAlertService;
     private final TwitterClient twitterClient;
@@ -40,34 +22,10 @@ public class TweetService {
         List<TweetDto> allTweets = twitterClient.fetchAllTweets(twitterUserId);
 
         List<MeteoAlert> meteoAlerts = allTweets.stream()
-                .filter(this::isMeteoAlert)
+                .filter(meteoAlertMapper::isMeteoAlert)
                 .map(meteoAlertMapper::mapToMeteoAlert)
                 .collect(Collectors.toList());
 
         meteoAlertService.save(meteoAlerts);
-    }
-
-    private boolean isMeteoAlert(TweetDto tweetDto) {
-        TweetType tweetType = getTweetType(tweetDto);
-        return TweetType.METEO_ALERT.equals(tweetType);
-    }
-
-    private TweetType getTweetType(TweetDto tweetDto) {
-        List<String> hashTags = tweetDto.getHashTags();
-        TweetType tweetType = hashTags
-                .stream()
-                .map(tag -> tag.toLowerCase(Locale.ROOT))
-                .anyMatch(METEO_KEYWORDS::contains) ? TweetType.METEO:TweetType.OTHER;
-
-        boolean hasMeteoAlertKeywords = hashTags
-                .stream()
-                .map(tag -> tag.toLowerCase(Locale.ROOT))
-                .anyMatch(METEO_ALERTS_KEYWORDS::contains);
-
-        if (tweetType.equals(TweetType.METEO) && hasMeteoAlertKeywords) {
-            tweetType = TweetType.METEO_ALERT;
-        }
-
-        return tweetType;
     }
 }

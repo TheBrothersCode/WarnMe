@@ -1,6 +1,5 @@
 package com.thedariusz.warnme.twitter;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 
 public class TweetDto {
@@ -94,8 +93,8 @@ public class TweetDto {
             return new TweetDto(tweetId, text, author, creationDate, mediaList, hashTags);
         }
 
-        public TweetDto fakeTweet(String id, String creationDate, String twitterUserId, List<String> hashTags) {
-            return new TweetDto(id, "testowy tweet numer "+id, AuthorDto.fake(twitterUserId), creationDate,  List.of("url1", "url2"), hashTags);
+        public TweetDto fakeTweet(String id, String creationDate, String twitterUserId, List<String> hashTags, String text) {
+            return new TweetDto(id, text, AuthorDto.fake(twitterUserId), creationDate,  List.of("url1", "url2"), hashTags);
         }
     }
 }
