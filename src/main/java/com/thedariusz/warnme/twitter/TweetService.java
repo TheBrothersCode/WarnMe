@@ -48,7 +48,7 @@ public class TweetService {
     }
 
     private boolean isMeteoAlert(TweetDto tweetDto) {
-        var tweetType = getTweetType(tweetDto);
+        TweetType tweetType = getTweetType(tweetDto);
         return TweetType.METEO_ALERT.equals(tweetType);
     }
 

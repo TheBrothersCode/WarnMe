@@ -4,7 +4,7 @@ import java.util.List;
 
 class IntegrationTestBase {
 
-    protected static final String ALERTS_PATH = "/alerts/2979632800";
+    protected static final String ALERTS_PATH = "/alerts";
 
     protected static class TweetDtoTest {
         public String tweetId;

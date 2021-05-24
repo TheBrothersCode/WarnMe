@@ -5,7 +5,7 @@ import com.thedariusz.warnme.MeteoAlertOrigin;
 import java.util.List;
 
 public class MeteoAlert {
-    private Long id;
+
     private int level;
     private List<String> categories;
     private String creationDate;
@@ -50,14 +50,6 @@ public class MeteoAlert {
         this.creationDate = creationDate;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public int getLevel() {
         return level;
     }
@@ -85,7 +77,6 @@ public class MeteoAlert {
     @Override
     public String toString() {
         return "MeteoAlert{" +
-                "id=" + id +
                 ", level=" + level +
                 ", categories='" + categories + '\'' +
                 ", creationDate='" + creationDate + '\'' +

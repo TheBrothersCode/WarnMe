@@ -1,5 +1,6 @@
 package com.thedariusz.warnme.api;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +14,7 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class AlertControllerRestTemplateIT extends IntegrationTestBase {
+class MeteoAlertControllerRestTemplateIT extends IntegrationTestBase {
 
     @LocalServerPort
     private int port;
@@ -22,6 +23,7 @@ class AlertControllerRestTemplateIT extends IntegrationTestBase {
     private TestRestTemplate restTemplate;
 
     @Test
+    @Disabled
     void shouldReturnAllAlerts() {
         //given
         final String url = "http://localhost:" + port + ALERTS_PATH;

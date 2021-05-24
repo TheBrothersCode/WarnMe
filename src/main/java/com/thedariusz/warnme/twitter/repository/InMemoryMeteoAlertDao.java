@@ -13,12 +13,13 @@ import java.util.stream.Collectors;
 public class InMemoryMeteoAlertDao implements MeteoAlertDao {
 
     private static final Logger logger = LoggerFactory.getLogger(InMemoryMeteoAlertDao.class);
+
     private static final List<MeteoAlert> DB_METEO_ALERTS = new ArrayList<>();
 
     @Override
     public void save(MeteoAlert meteoAlert) {
+        logger.info("Saving {}", meteoAlert);
         DB_METEO_ALERTS.add(meteoAlert);
-        logger.info(meteoAlert.toString());
     }
 
     @Override
@@ -38,12 +39,13 @@ public class InMemoryMeteoAlertDao implements MeteoAlertDao {
     }
 
     @Override
-    public List<MeteoAlert> fetchLatest(int number) {
-        return DB_METEO_ALERTS.stream()
-                .sorted(Comparator.comparing(MeteoAlert::getCreationDate).reversed())
-                .limit(number)
-                .collect(Collectors.toList());
+    public List<MeteoAlert> fetchAll() {
+        return DB_METEO_ALERTS;
+    }
 
+    @Override
+    public void deleteAll() {
+        DB_METEO_ALERTS.clear();
     }
 
 

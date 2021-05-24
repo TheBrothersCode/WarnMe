@@ -1,7 +1,7 @@
 package com.thedariusz.warnme.twitter.repository;
 
-import com.thedariusz.warnme.twitter.MeteoAlert;
 import com.thedariusz.warnme.MeteoAlertDao;
+import com.thedariusz.warnme.twitter.MeteoAlert;
 
 import java.util.List;
 
@@ -23,7 +23,13 @@ public class MySqlMeteoAlertDao implements MeteoAlertDao {
     }
 
     @Override
-    public List<MeteoAlert> fetchLatest(int number) {
-        return null;
+    public List<MeteoAlert> fetchAll() {
+        return List.of();
     }
+
+    @Override
+    public void deleteAll() {
+        //skip this
+    }
+
 }

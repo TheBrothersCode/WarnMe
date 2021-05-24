@@ -12,5 +12,8 @@ public interface MeteoAlertDao {
 
     boolean existsByExternalId(MeteoAlert meteoAlert);
 
-    List<MeteoAlert> fetchLatest(int number);
+    List<MeteoAlert> fetchAll();
+
+    void deleteAll();
+
 }
