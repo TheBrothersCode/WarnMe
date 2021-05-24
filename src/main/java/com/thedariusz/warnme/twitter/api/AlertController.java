@@ -20,11 +20,7 @@ public class AlertController {
     @PostMapping
     @RequestMapping("/{id}")
     public void fetchAllAlerts(@PathVariable("id") String twitterUserId) {
-//        String twitterUserId="1";
         tweetService.syncTweets(twitterUserId);
-        //burzeService.fetchStormsAlerts()
     }
-
-
 
 }

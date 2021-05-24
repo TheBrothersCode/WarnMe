@@ -2,16 +2,15 @@ package com.thedariusz.warnme.twitter.api;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Repository("fakeDao")
-public class FakeMeteoAlertDataAccess implements MeteoAlertDao {
-    private static final Logger logger = LoggerFactory.getLogger(FakeMeteoAlertDataAccess.class);
+public class InMemoryMeteoAlertDao implements MeteoAlertDao {
+
+    private static final Logger logger = LoggerFactory.getLogger(InMemoryMeteoAlertDao.class);
     private static final List<MeteoAlert> DB_METEO_ALERTS = new ArrayList<>();
 
     @Override

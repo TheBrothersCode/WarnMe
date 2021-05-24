@@ -1,32 +1,30 @@
 package com.thedariusz.warnme.twitter.api;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Service
 public class TweetService {
-    private static final String SOURCE_NAME = "Twitter";
+
     private static final Set<String> METEO_KEYWORDS =
             Set.of("meteo", "weather", "imgw", "pogoda", "burze", "burza",
                     "upał", "mróz", "meteoimgw", "przymrozki", "temperatura", "hydro",
                     "deszcz", "wichura", "grad", "ulewa",
                     "śnieg", " prognoza");
+
     private static final Set<String> METEO_ALERTS_KEYWORDS =
             Set.of("ostrzegamy", "ostrzeżenia", "ostrzeżenie", "alert",
                     "meteoalert", "uwaga", "alertrcb", "burzaalert");
 
     private final MeteoAlertService meteoAlertService;
     private final TwitterClient twitterClient;
+    private final MeteoAlertMapper meteoAlertMapper;
 
-    @Autowired
-    public TweetService(MeteoAlertService meteoAlertService, TwitterClient twitterClient) {
+    public TweetService(MeteoAlertService meteoAlertService, TwitterClient twitterClient, MeteoAlertMapper meteoAlertMapper) {
         this.meteoAlertService = meteoAlertService;
         this.twitterClient = twitterClient;
+        this.meteoAlertMapper = meteoAlertMapper;
     }
 
     public void syncTweets(String twitterUserId) {
@@ -34,7 +32,7 @@ public class TweetService {
 
         List<MeteoAlert> meteoAlerts = allTweets.stream()
                 .filter(this::isMeteoAlert)
-                .map(this::mapToMeteoAlert)
+                .map(meteoAlertMapper::mapToMeteoAlert)
                 .collect(Collectors.toList());
 
         meteoAlertService.save(meteoAlerts);
@@ -43,16 +41,6 @@ public class TweetService {
     private boolean isMeteoAlert(TweetDto tweetDto) {
         var tweetType = getTweetType(tweetDto);
         return TweetType.METEO_ALERT.equals(tweetType);
-    }
-
-    private MeteoAlert mapToMeteoAlert(TweetDto tweetDto) {
-        return new MeteoAlert(
-                getAlertLevel(tweetDto),
-                getAlertCategory(tweetDto),
-                tweetDto.getCreationDate(),
-                tweetDto.getText(),
-                new AlertOrigin(SOURCE_NAME, tweetDto.getAuthor().getName(), tweetDto.getTweetId()),
-                tweetDto.getMediaList());
     }
 
     private TweetType getTweetType(TweetDto tweetDto) {
@@ -72,13 +60,5 @@ public class TweetService {
         }
 
         return tweetType;
-    }
-
-    private List<String> getAlertCategory(TweetDto tweetDto) {
-        return List.of("burze");
-    }
-
-    private int getAlertLevel(TweetDto tweetDto) {
-        return 1;
     }
 }

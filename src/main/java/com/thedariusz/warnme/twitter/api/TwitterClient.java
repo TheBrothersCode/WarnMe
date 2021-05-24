@@ -1,12 +1,8 @@
 package com.thedariusz.warnme.twitter.api;
 
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 
-//@WebClient
-@Component
 public class TwitterClient {
 
     public List<TweetDto> fetchAllTweets(String twitterUserId) {
