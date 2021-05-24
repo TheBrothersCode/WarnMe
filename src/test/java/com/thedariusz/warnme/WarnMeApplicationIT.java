@@ -1,4 +1,4 @@
-package com.thebrotherscode.warnme;
+package com.thedariusz.warnme;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

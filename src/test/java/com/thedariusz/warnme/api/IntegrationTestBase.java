@@ -1,4 +1,4 @@
-package com.thebrotherscode.warnme.twitter.api;
+package com.thedariusz.warnme.api;
 
 import java.util.List;
 
@@ -7,20 +7,18 @@ class IntegrationTestBase {
     protected static final String ALERTS_PATH = "/alerts";
 
     protected static class TweetDtoTest {
-        public String alertId;
+        public String tweetId;
         public String text;
         public AuthorDtoTest author;
         public String creationDate;
-        public String tweetType;
         public List<String> mediaList;
         public List<String> hashTags;
 
-        public TweetDtoTest(String alertId, String text, AuthorDtoTest author, String creationDate, String tweetType, List<String> mediaList, List<String> hashTags) {
-            this.alertId = alertId;
+        public TweetDtoTest(String tweetId, String text, AuthorDtoTest author, String creationDate, List<String> mediaList, List<String> hashTags) {
+            this.tweetId = tweetId;
             this.text = text;
             this.author = author;
             this.creationDate = creationDate;
-            this.tweetType = tweetType;
             this.mediaList = mediaList;
             this.hashTags = hashTags;
         }
@@ -54,11 +52,10 @@ class IntegrationTestBase {
         @Override
         public String toString() {
             return "TweetDtoTest{" +
-                    "alertId='" + alertId + '\'' +
+                    "alertId='" + tweetId + '\'' +
                     ", text='" + text + '\'' +
                     ", author=" + author +
                     ", creationDate='" + creationDate + '\'' +
-                    ", tweetType='" + tweetType + '\'' +
                     ", mediaList=" + mediaList +
                     ", hashTags=" + hashTags +
                     '}';
