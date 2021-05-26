@@ -1,7 +1,10 @@
 package com.thedariusz.warnme.twitter;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class AuthorDto {
 
+    @JsonProperty("author_id")
     private final String id;
     private final String name;
     private final String username;

@@ -2,6 +2,7 @@ package com.thedariusz.warnme.twitter.client;
 
 import com.thedariusz.warnme.twitter.TweetDto;
 import com.thedariusz.warnme.twitter.TwitterClient;
+import reactor.core.Disposable;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
@@ -34,5 +35,10 @@ public class FakeTwitterClient implements TwitterClient {
         }
 
         return tweetDtos;
+    }
+
+    @Override
+    public Disposable getSingleTweet(String tweetId) {
+        return null;
     }
 }

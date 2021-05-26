@@ -2,6 +2,7 @@ package com.thedariusz.warnme.twitter;
 
 import com.thedariusz.warnme.MeteoAlertMapper;
 import com.thedariusz.warnme.MeteoAlertService;
+import reactor.core.Disposable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,5 +28,11 @@ public class TweetService {
                 .collect(Collectors.toList());
 
         meteoAlertService.save(meteoAlerts);
+    }
+
+    public TweetDto getSingleTweet(String tweetId) {
+//        TweetDto singleTweet = twitterClient.getSingleTweet(tweetId);
+        Disposable singleTweet = twitterClient.getSingleTweet(tweetId);
+        return null;
     }
 }

@@ -1,18 +1,28 @@
 package com.thedariusz.warnme.twitter;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class TweetDto {
 
-    private final String tweetId;
-    private final String text;
-    private final AuthorDto author;
-    private final String creationDate;
-    private final List<String> mediaList;
-    private final List<String> hashTags;
+    @JsonProperty("id")
+    private String tweetId;
+    @JsonProperty("text")
+    private String text;
+
+    private AuthorDto author;
+    @JsonProperty("created_at")
+    private String creationDate;
+
+    private List<String> mediaList;
+    private List<String> hashTags;
 
     public static TweetDtoBuilder builder() {
         return new TweetDtoBuilder();
+    }
+
+    public TweetDto() {
     }
 
     private TweetDto(String tweetId, String text, AuthorDto author, String creationDate, List<String> mediaList, List<String> hashTags) {

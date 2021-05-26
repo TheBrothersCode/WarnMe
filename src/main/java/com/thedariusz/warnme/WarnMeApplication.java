@@ -14,6 +14,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.ZoneOffset;
 import java.util.TimeZone;
@@ -53,14 +54,14 @@ public class WarnMeApplication {
 	}
 
 	@Bean
-	@Primary
 	public TwitterClient fakeTwitterClient() {
 		return new FakeTwitterClient();
 	}
 
 	@Bean
-	public TwitterClient springTwitterClient() {
-		return new SpringTwitterClient();
+	@Primary
+	public TwitterClient springTwitterClient(WebClient webClient) {
+		return new SpringTwitterClient(webClient);
 	}
 
 	@Bean
