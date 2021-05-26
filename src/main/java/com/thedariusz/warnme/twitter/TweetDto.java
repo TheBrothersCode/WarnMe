@@ -25,7 +25,7 @@ public class TweetDto {
     public TweetDto() {
     }
 
-    private TweetDto(String tweetId, String text, AuthorDto author, String creationDate, List<String> mediaList, List<String> hashTags) {
+    public TweetDto(String tweetId, String text, AuthorDto author, String creationDate, List<String> mediaList, List<String> hashTags) {
         this.tweetId = tweetId;
         this.text = text;
         this.author = author;
@@ -106,5 +106,29 @@ public class TweetDto {
         public TweetDto fakeTweet(String id, String creationDate, String twitterUserId, List<String> hashTags, String text) {
             return new TweetDto(id, text, AuthorDto.fake(twitterUserId), creationDate,  List.of("url1", "url2"), hashTags);
         }
+    }
+
+    public void setTweetId(String tweetId) {
+        this.tweetId = tweetId;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void setAuthor(AuthorDto author) {
+        this.author = author;
+    }
+
+    public void setCreationDate(String creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public void setMediaList(List<String> mediaList) {
+        this.mediaList = mediaList;
+    }
+
+    public void setHashTags(List<String> hashTags) {
+        this.hashTags = hashTags;
     }
 }

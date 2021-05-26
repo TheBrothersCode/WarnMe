@@ -8,6 +8,7 @@ import java.util.List;
 public interface TwitterClient {
 
     List<TweetDto> fetchAllTweets(String twitterUserId);
+//    Disposable getSingleTweet(String tweetId);
     Disposable getSingleTweet(String tweetId);
 
 

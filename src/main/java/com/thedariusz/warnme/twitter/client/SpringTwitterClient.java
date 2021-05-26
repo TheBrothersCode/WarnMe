@@ -36,4 +36,17 @@ public class SpringTwitterClient implements TwitterClient {
                 .subscribe((body)-> { System.out.println("body:" + body);} );
     }
 
+//    @Override
+//    public TweetDto getSingleTweet(String tweetId) {
+//        return webClient.get()
+//                .uri("/tweets/" + tweetId + "?tweet.fields=attachments,author_id,context_annotations,created_at,entities,geo,id,lang,source,text")
+//                .retrieve()
+//                .onStatus(HttpStatus::is4xxClientError,
+//                        error -> Mono.error(new RuntimeException("API not found")))
+//                .onStatus(HttpStatus::is5xxServerError,
+//                        error -> Mono.error(new RuntimeException("Server is not responding")))
+//                .bodyToMono(TweetDto.class)
+//                .block();
+//    }
+
 }
