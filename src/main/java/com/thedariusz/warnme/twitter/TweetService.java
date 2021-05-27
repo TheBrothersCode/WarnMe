@@ -31,8 +31,8 @@ public class TweetService {
     }
 
     public TweetDto getSingleTweet(String tweetId) {
-//        TweetDto singleTweet = twitterClient.getSingleTweet(tweetId);
-        Disposable singleTweet = twitterClient.getSingleTweet(tweetId);
-        return null;
+        TweetDto singleTweet = twitterClient.getSingleTweetDto(tweetId);
+//        Disposable singleTweet = twitterClient.getSingleTweetDispose(tweetId);
+        return singleTweet;
     }
 }

@@ -1,31 +1,29 @@
 package com.thedariusz.warnme.twitter;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class TweetDto {
 
-    @JsonProperty("id")
     private String tweetId;
-    @JsonProperty("text")
     private String text;
-
     private AuthorDto author;
-    @JsonProperty("created_at")
     private String creationDate;
-
     private List<String> mediaList;
     private List<String> hashTags;
 
-    public static TweetDtoBuilder builder() {
-        return new TweetDtoBuilder();
-    }
 
-    public TweetDto() {
-    }
-
-    public TweetDto(String tweetId, String text, AuthorDto author, String creationDate, List<String> mediaList, List<String> hashTags) {
+    public TweetDto(@JsonProperty("id") String tweetId,
+                    @JsonProperty("text")String text,
+                    AuthorDto author,
+                    @JsonProperty("created_at")
+                    String creationDate,
+                    List<String> mediaList,
+                    List<String> hashTags) {
         this.tweetId = tweetId;
         this.text = text;
         this.author = author;
@@ -58,55 +56,6 @@ public class TweetDto {
         return hashTags;
     }
 
-    public static final class TweetDtoBuilder {
-        private String tweetId;
-        private String text;
-        private AuthorDto author;
-        private String creationDate;
-        private List<String> mediaList;
-        private List<String> hashTags;
-
-        private TweetDtoBuilder() {
-        }
-
-        public TweetDtoBuilder withTweetId(String tweetId) {
-            this.tweetId = tweetId;
-            return this;
-        }
-
-        public TweetDtoBuilder withText(String text) {
-            this.text = text;
-            return this;
-        }
-
-        public TweetDtoBuilder withAuthor(AuthorDto author) {
-            this.author = author;
-            return this;
-        }
-
-        public TweetDtoBuilder withCreationDate(String creationDate) {
-            this.creationDate = creationDate;
-            return this;
-        }
-
-        public TweetDtoBuilder withMediaList(List<String> mediaList) {
-            this.mediaList = mediaList;
-            return this;
-        }
-
-        public TweetDtoBuilder withHashTags(List<String> hashTags) {
-            this.hashTags = hashTags;
-            return this;
-        }
-
-        public TweetDto build() {
-            return new TweetDto(tweetId, text, author, creationDate, mediaList, hashTags);
-        }
-
-        public TweetDto fakeTweet(String id, String creationDate, String twitterUserId, List<String> hashTags, String text) {
-            return new TweetDto(id, text, AuthorDto.fake(twitterUserId), creationDate,  List.of("url1", "url2"), hashTags);
-        }
-    }
 
     public void setTweetId(String tweetId) {
         this.tweetId = tweetId;
