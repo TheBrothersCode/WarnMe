@@ -28,7 +28,7 @@ class MeteoAlertMapperTest {
                 .build();
 
         //when
-        final MeteoAlert meteoAlert = meteoAlertMapper.mapToMeteoAlert(tweetWithoutMeaningfulText);
+        final MeteoAlert meteoAlert = meteoAlertMapper.mapToMeteoAlertFromTweet(tweetWithoutMeaningfulText);
 
         //then
         final MeteoAlertOrigin meteoAlertOrigin = new MeteoAlertOrigin("Twitter", "imgw", "1");
@@ -53,7 +53,7 @@ class MeteoAlertMapperTest {
                 .build();
 
         //when
-        final MeteoAlert meteoAlert = meteoAlertMapper.mapToMeteoAlert(tweetDtoWithAllFields);
+        final MeteoAlert meteoAlert = meteoAlertMapper.mapToMeteoAlertFromTweet(tweetDtoWithAllFields);
 
         //then
         final MeteoAlertOrigin meteoAlertOrigin = new MeteoAlertOrigin("Twitter", "imgw", "1");
