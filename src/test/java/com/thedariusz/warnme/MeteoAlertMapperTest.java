@@ -1,10 +1,14 @@
 package com.thedariusz.warnme;
 
 import com.thedariusz.warnme.twitter.AuthorDto;
+import com.thedariusz.warnme.twitter.Entity;
+import com.thedariusz.warnme.twitter.Hashtag;
 import com.thedariusz.warnme.twitter.MeteoAlert;
 import com.thedariusz.warnme.twitter.TweetDto;
+import com.thedariusz.warnme.twitter.Url;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -18,22 +22,27 @@ class MeteoAlertMapperTest {
     @Test
     void shouldMapToMeteoAlertWithLevelNotFound() {
         //given
+        final String[] exampleOfHashtags = {"burze", "wichura"};
+        Hashtag[] hashtags = Arrays.stream(exampleOfHashtags)
+                .map(Hashtag::new)
+                .toArray(Hashtag[]::new);
+        Entity entity = new Entity(new Url[]{}, hashtags);
+
         TweetDto tweetWithoutMeaningfulText = TweetDto.builder()
-                .withTweetId("1")
+                .withId("1")
                 .withText("test")
-                .withAuthor(AuthorDto.fake("1139834822011084801"))
+                .withAuthorId("1139834822011084801")
                 .withCreationDate("2021-05-06T10:13:17.000Z")
-                .withMediaList(List.of("url1", "url2"))
-                .withHashTags(List.of("burze", "wichura", "ostrzeżenie"))
+                .withEntity(entity)
                 .build();
 
         //when
         final MeteoAlert meteoAlert = meteoAlertMapper.mapToMeteoAlertFromTweet(tweetWithoutMeaningfulText);
 
         //then
-        final MeteoAlertOrigin meteoAlertOrigin = new MeteoAlertOrigin("Twitter", "imgw", "1");
+        final MeteoAlertOrigin meteoAlertOrigin = new MeteoAlertOrigin("Twitter", "1139834822011084801", "1");
         final MeteoAlert expectedAlertWithLeveNotFound = new MeteoAlert(0, Set.of("burze", "wichura"),
-                "2021-05-06T10:13:17.000Z", "test", meteoAlertOrigin, List.of("url1", "url2"));
+                "2021-05-06T10:13:17.000Z", "test", meteoAlertOrigin, null);
 
         assertThat(meteoAlert)
                 .usingRecursiveComparison()
@@ -44,22 +53,27 @@ class MeteoAlertMapperTest {
     @Test
     void shouldMapToMeteoAlertWithLevelOne() {
         //given
+        final String[] exampleOfHashtags = {"burze", "wichura"};
+        Hashtag[] hashtags = Arrays.stream(exampleOfHashtags)
+                .map(Hashtag::new)
+                .toArray(Hashtag[]::new);
+        Entity entity = new Entity(new Url[]{}, hashtags);
+
         TweetDto tweetDtoWithAllFields = TweetDto.builder()
-                .withTweetId("1")
+                .withId("1")
                 .withText("1 stopnia")
-                .withAuthor(AuthorDto.fake("1139834822011084801"))
+                .withAuthorId("1139834822011084801")
                 .withCreationDate("2021-05-06T10:13:17.000Z")
-                .withMediaList(List.of("url1", "url2"))
-                .withHashTags(List.of("burze", "wichura", "ostrzeżenie"))
+                .withEntity(entity)
                 .build();
 
         //when
         final MeteoAlert meteoAlert = meteoAlertMapper.mapToMeteoAlertFromTweet(tweetDtoWithAllFields);
 
         //then
-        final MeteoAlertOrigin meteoAlertOrigin = new MeteoAlertOrigin("Twitter", "imgw", "1");
+        final MeteoAlertOrigin meteoAlertOrigin = new MeteoAlertOrigin("Twitter", "1139834822011084801", "1");
         final MeteoAlert expectedAlertWithLevelOne = new MeteoAlert(1, Set.of("burze", "wichura"),
-                "2021-05-06T10:13:17.000Z", "1 stopnia", meteoAlertOrigin, List.of("url1", "url2"));
+                "2021-05-06T10:13:17.000Z", "1 stopnia", meteoAlertOrigin, null);
 
         assertThat(meteoAlert)
                 .usingRecursiveComparison()

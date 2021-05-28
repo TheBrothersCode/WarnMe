@@ -1,6 +1,10 @@
 package com.thedariusz.warnme;
 
+import com.thedariusz.warnme.twitter.Hashtag;
+
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -12,10 +16,10 @@ public class MeteoAlertCategoryMapper {
                     "oblodzenie", "opady marznące", "opady śniegu", "roztopy", "silny deszcze z burzami",
                     "gęsta mgła", "silny mróz", "silny wiatr", "zawieje", "zamiecie śnieżne");
 
-    public Set<String> getCategories(List<String> hashTags) {
-        return hashTags
+    public Set<String> getCategories(Hashtag[] hashTags) {
+        return Arrays.asList(hashTags)
                 .stream()
-                .map(String::toLowerCase)
+                .map(hashtag -> hashtag.getTag().toLowerCase())
                 .filter(METEO_ALERTS_CATEGORIES::contains)
                 .collect(Collectors.toSet());
     }

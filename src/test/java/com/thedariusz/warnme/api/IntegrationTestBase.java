@@ -1,5 +1,7 @@
 package com.thedariusz.warnme.api;
 
+import com.thedariusz.warnme.twitter.Entity;
+
 import java.util.List;
 
 class IntegrationTestBase {
@@ -7,57 +9,30 @@ class IntegrationTestBase {
     protected static final String ALERTS_PATH = "/alerts";
 
     protected static class TweetDtoTest {
-        public String tweetId;
+        public String id;
         public String text;
-        public AuthorDtoTest author;
+        public String author;
         public String creationDate;
-        public List<String> mediaList;
-        public List<String> hashTags;
+        public Entity entity;
 
-        public TweetDtoTest(String tweetId, String text, AuthorDtoTest author, String creationDate, List<String> mediaList, List<String> hashTags) {
-            this.tweetId = tweetId;
+        public TweetDtoTest(String id, String text, String author, String creationDate, Entity entity) {
+            this.id = id;
             this.text = text;
             this.author = author;
             this.creationDate = creationDate;
-            this.mediaList = mediaList;
-            this.hashTags = hashTags;
+            this.entity = entity;
         }
 
         public TweetDtoTest() {}
 
-        public static class AuthorDtoTest {
-            public String id;
-            public String name;
-            public String username;
-
-            public AuthorDtoTest(String id, String name, String username) {
-                this.id = id;
-                this.name = name;
-                this.username = username;
-            }
-
-            public AuthorDtoTest() {
-            }
-
-            @Override
-            public String toString() {
-                return "AuthorDtoTest{" +
-                        "id='" + id + '\'' +
-                        ", name='" + name + '\'' +
-                        ", username='" + username + '\'' +
-                        '}';
-            }
-        }
-
         @Override
         public String toString() {
             return "TweetDtoTest{" +
-                    "alertId='" + tweetId + '\'' +
+                    "id='" + id + '\'' +
                     ", text='" + text + '\'' +
-                    ", author=" + author +
+                    ", author='" + author + '\'' +
                     ", creationDate='" + creationDate + '\'' +
-                    ", mediaList=" + mediaList +
-                    ", hashTags=" + hashTags +
+                    ", entity=" + entity +
                     '}';
         }
     }
