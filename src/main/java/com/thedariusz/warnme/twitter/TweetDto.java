@@ -34,8 +34,59 @@ public class TweetDto {
 
     public TweetDto() {
     }
+    public static TweetDtoBuilder builder() {
+        return new TweetDtoBuilder();
+    }
 
+    public static final class TweetDtoBuilder {
+        private String tweetId;
+        private String text;
+        private AuthorDto author;
+        private String creationDate;
+        private List<String> mediaList;
+        private List<String> hashTags;
 
+        private TweetDtoBuilder() {
+        }
+
+        public TweetDtoBuilder withTweetId(String tweetId) {
+            this.tweetId = tweetId;
+            return this;
+        }
+
+        public TweetDtoBuilder withText(String text) {
+            this.text = text;
+            return this;
+        }
+
+        public TweetDtoBuilder withAuthor(AuthorDto author) {
+            this.author = author;
+            return this;
+        }
+
+        public TweetDtoBuilder withCreationDate(String creationDate) {
+            this.creationDate = creationDate;
+            return this;
+        }
+
+        public TweetDtoBuilder withMediaList(List<String> mediaList) {
+            this.mediaList = mediaList;
+            return this;
+        }
+
+        public TweetDtoBuilder withHashTags(List<String> hashTags) {
+            this.hashTags = hashTags;
+            return this;
+        }
+
+        public TweetDto build() {
+            return new TweetDto(tweetId, text, author, creationDate, mediaList, hashTags);
+        }
+
+        public TweetDto fakeTweet(String id, String creationDate, String twitterUserId, List<String> hashTags, String text) {
+            return new TweetDto(id, text, AuthorDto.fake(twitterUserId), creationDate,  List.of("url1", "url2"), hashTags);
+        }
+    }
     public String getTweetId() {
         return tweetId;
     }

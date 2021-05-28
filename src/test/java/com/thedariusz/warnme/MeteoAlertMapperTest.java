@@ -32,7 +32,8 @@ class MeteoAlertMapperTest {
 
         //then
         final MeteoAlertOrigin meteoAlertOrigin = new MeteoAlertOrigin("Twitter", "imgw", "1");
-        final MeteoAlert expectedAlertWithLeveNotFound = new MeteoAlert(0, Set.of("burze", "wichura"), "2021-05-06T10:13:17.000Z", "test", meteoAlertOrigin, List.of("url1", "url2"));
+        final MeteoAlert expectedAlertWithLeveNotFound = new MeteoAlert(0, Set.of("burze", "wichura"),
+                "2021-05-06T10:13:17.000Z", "test", meteoAlertOrigin, List.of("url1", "url2"));
 
         assertThat(meteoAlert)
                 .usingRecursiveComparison()
@@ -57,7 +58,8 @@ class MeteoAlertMapperTest {
 
         //then
         final MeteoAlertOrigin meteoAlertOrigin = new MeteoAlertOrigin("Twitter", "imgw", "1");
-        final MeteoAlert expectedAlertWithLevelOne = new MeteoAlert(1, Set.of("burze", "wichura"), "2021-05-06T10:13:17.000Z", "1 stopnia", meteoAlertOrigin, List.of("url1", "url2"));
+        final MeteoAlert expectedAlertWithLevelOne = new MeteoAlert(1, Set.of("burze", "wichura"),
+                "2021-05-06T10:13:17.000Z", "1 stopnia", meteoAlertOrigin, List.of("url1", "url2"));
 
         assertThat(meteoAlert)
                 .usingRecursiveComparison()
