@@ -1,6 +1,7 @@
 package com.thedariusz.warnme.twitter.client;
 
 import com.thedariusz.warnme.twitter.TweetDto;
+import com.thedariusz.warnme.twitter.TweetDtoWrapper;
 import com.thedariusz.warnme.twitter.TwitterClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,6 @@ import java.util.List;
 
 public class SpringTwitterClient implements TwitterClient {
 
-    @Autowired
     private final WebClient webClient;
 
     public SpringTwitterClient(WebClient webClient) {
@@ -27,7 +27,7 @@ public class SpringTwitterClient implements TwitterClient {
     @Override
     public Disposable getSingleTweetDispose(String tweetId) {
         return webClient.get()
-                .uri("/tweets/" + tweetId + "?tweet.fields=attachments,author_id,context_annotations,created_at,entities,geo,id,lang,source,text")
+                .uri("/tweets/" + tweetId + "?tweet.fields=created_at,id,text")
                 .retrieve()
                 .onStatus(HttpStatus::is4xxClientError,
                         error -> Mono.error(new RuntimeException("API not found")))
@@ -39,15 +39,17 @@ public class SpringTwitterClient implements TwitterClient {
 
     @Override
     public TweetDto getSingleTweetDto(String tweetId) {
-        return webClient.get()
+
+        TweetDtoWrapper tweetDtoWrapper = webClient.get()
                 .uri("/tweets/" + tweetId + "?tweet.fields=created_at,id,text")
                 .retrieve()
                 .onStatus(HttpStatus::is4xxClientError,
                         error -> Mono.error(new RuntimeException("API not found")))
                 .onStatus(HttpStatus::is5xxServerError,
                         error -> Mono.error(new RuntimeException("Server is not responding")))
-                .bodyToMono(TweetDto.class)
+                .bodyToMono(TweetDtoWrapper.class)
                 .block();
+        return tweetDtoWrapper.getData();
     }
 
 }

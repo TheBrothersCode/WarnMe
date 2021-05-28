@@ -9,18 +9,18 @@ import java.util.List;
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class TweetDto {
 
+    @JsonProperty("id")
     private String tweetId;
     private String text;
     private AuthorDto author;
+    @JsonProperty("created_at")
     private String creationDate;
     private List<String> mediaList;
     private List<String> hashTags;
 
-
-    public TweetDto(@JsonProperty("id") String tweetId,
-                    @JsonProperty("text")String text,
+    public TweetDto(String tweetId,
+                    String text,
                     AuthorDto author,
-                    @JsonProperty("created_at")
                     String creationDate,
                     List<String> mediaList,
                     List<String> hashTags) {
@@ -31,6 +31,10 @@ public class TweetDto {
         this.mediaList = List.copyOf(mediaList);
         this.hashTags = List.copyOf(hashTags);
     }
+
+    public TweetDto() {
+    }
+
 
     public String getTweetId() {
         return tweetId;
@@ -55,7 +59,6 @@ public class TweetDto {
     public List<String> getHashTags() {
         return hashTags;
     }
-
 
     public void setTweetId(String tweetId) {
         this.tweetId = tweetId;

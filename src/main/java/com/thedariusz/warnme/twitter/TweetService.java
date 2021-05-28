@@ -33,6 +33,6 @@ public class TweetService {
     public TweetDto getSingleTweet(String tweetId) {
         TweetDto singleTweet = twitterClient.getSingleTweetDto(tweetId);
 //        Disposable singleTweet = twitterClient.getSingleTweetDispose(tweetId);
-        return singleTweet;
+        return null;
     }
 }
