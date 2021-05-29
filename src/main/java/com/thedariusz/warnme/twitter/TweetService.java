@@ -2,7 +2,7 @@ package com.thedariusz.warnme.twitter;
 
 import com.thedariusz.warnme.MeteoAlertMapper;
 import com.thedariusz.warnme.MeteoAlertService;
-import com.thedariusz.warnme.twitter.repository.InMemoryMeteoAlertDao;
+import com.thedariusz.warnme.twitter.model.Hashtag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,11 +54,15 @@ public class TweetService {
     }
 
     boolean isMeteoAlert(TweetDto tweetDto) {
-        TweetType tweetType = getTweetTypeBasedOnHashTags(tweetDto.getEntities().hashtags);
+        TweetType tweetType = getTweetTypeBasedOnHashTags(tweetDto.getEntities().getHashtags());
         return tweetType.equals(TweetType.METEO_ALERT);
     }
 
     TweetType getTweetTypeBasedOnHashTags(Hashtag[] hashTags) {
+        if (hashTags==null) {
+            return TweetType.OTHER;
+        }
+
         TweetType tweetType = Arrays.asList(hashTags)
                 .stream()
                 .map(hashtag -> hashtag.getTag().toLowerCase())

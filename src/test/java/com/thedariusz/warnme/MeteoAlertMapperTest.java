@@ -1,15 +1,13 @@
 package com.thedariusz.warnme;
 
-import com.thedariusz.warnme.twitter.AuthorDto;
-import com.thedariusz.warnme.twitter.Entity;
-import com.thedariusz.warnme.twitter.Hashtag;
+import com.thedariusz.warnme.twitter.model.Entity;
+import com.thedariusz.warnme.twitter.model.Hashtag;
 import com.thedariusz.warnme.twitter.MeteoAlert;
 import com.thedariusz.warnme.twitter.TweetDto;
-import com.thedariusz.warnme.twitter.Url;
+import com.thedariusz.warnme.twitter.model.Url;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;

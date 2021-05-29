@@ -1,8 +1,6 @@
 package com.thedariusz.warnme.api;
 
-import com.thedariusz.warnme.twitter.Entity;
-
-import java.util.List;
+import com.thedariusz.warnme.twitter.model.Entity;
 
 class IntegrationTestBase {
 

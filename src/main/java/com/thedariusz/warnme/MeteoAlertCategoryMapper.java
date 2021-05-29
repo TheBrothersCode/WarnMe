@@ -1,10 +1,8 @@
 package com.thedariusz.warnme;
 
-import com.thedariusz.warnme.twitter.Hashtag;
+import com.thedariusz.warnme.twitter.model.Hashtag;
 
 import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 import java.util.stream.Collectors;
 

@@ -1,5 +1,8 @@
 package com.thedariusz.warnme.twitter;
 
+import com.thedariusz.warnme.twitter.model.Includes;
+import com.thedariusz.warnme.twitter.model.Meta;
+
 public class TweetDtoWrapper {
     TweetDto[] data;
     Includes includes;

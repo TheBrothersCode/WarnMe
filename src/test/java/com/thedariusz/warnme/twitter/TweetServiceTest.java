@@ -5,13 +5,12 @@ import com.thedariusz.warnme.MeteoAlertDao;
 import com.thedariusz.warnme.MeteoAlertMapper;
 import com.thedariusz.warnme.MeteoAlertService;
 import com.thedariusz.warnme.twitter.client.FakeTwitterClient;
+import com.thedariusz.warnme.twitter.model.Entity;
+import com.thedariusz.warnme.twitter.model.Hashtag;
 import com.thedariusz.warnme.twitter.repository.InMemoryMeteoAlertDao;
 import org.junit.jupiter.api.Test;
 
-import javax.xml.stream.events.EndElement;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -77,7 +76,7 @@ class TweetServiceTest {
                 .map(Hashtag::new)
                 .toArray(Hashtag[]::new);
         Entity entity = new Entity();
-        entity.hashtags = hashtags;
+        entity.setHashtags(hashtags);
 
         TweetDto tweetWithMeteoAlertHashTags = TweetDto.builder()
                 .withId("1")
@@ -103,7 +102,7 @@ class TweetServiceTest {
                 .map(Hashtag::new)
                 .toArray(Hashtag[]::new);
         Entity entity = new Entity();
-        entity.hashtags = hashtags;
+        entity.setHashtags(hashtags);
 
         TweetDto tweetWithMeteoAlertHashTags = TweetDto.builder()
                 .withId("1")

@@ -9,9 +9,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
@@ -30,6 +32,7 @@ class MeteoAlertControllerMockMvcIT extends IntegrationTestBase {
 
     @Autowired
     MockMvc mockMvc;
+    WebClient webClient;
 
     @Autowired
     ObjectMapper objectMapper;

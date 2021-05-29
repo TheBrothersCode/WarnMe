@@ -1,4 +1,4 @@
-package com.thedariusz.warnme.twitter;
+package com.thedariusz.warnme.twitter.model;
 
 public class Entity {
     Url[] urls;

@@ -1,8 +1,7 @@
 package com.thedariusz.warnme.twitter;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import java.util.List;
+import com.thedariusz.warnme.twitter.model.Entity;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class TweetDto {

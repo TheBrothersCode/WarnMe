@@ -1,4 +1,6 @@
-package com.thedariusz.warnme.twitter;
+package com.thedariusz.warnme.twitter.model;
+
+import com.thedariusz.warnme.twitter.model.Media;
 
 public class Includes {
     Media[] media;
