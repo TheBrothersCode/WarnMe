@@ -9,15 +9,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 
@@ -29,10 +26,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = MeteoAlertController.class)
 class MeteoAlertControllerMockMvcIT extends IntegrationTestBase {
+    static final String ALERTS_PATH = "/alerts";
+    @Autowired
+    WebClient twitterClientBuilder;
 
     @Autowired
     MockMvc mockMvc;
-    WebClient webClient;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -40,30 +39,12 @@ class MeteoAlertControllerMockMvcIT extends IntegrationTestBase {
     @Autowired
     MeteoAlertDao meteoAlertDao;
 
+
     @BeforeEach
     public void init() {
         meteoAlertDao.deleteAll();
     }
 
-//    @Test
-//    @Disabled
-//    void shouldReturnAllAlerts() throws Exception {
-//        final MvcResult mvcResult = mockMvc.perform(get(ALERTS_PATH))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-//                .andReturn();
-//
-//        final String jsonResponse = mvcResult.getResponse().getContentAsString();
-//        final List<TweetDtoTest> actualTweetList = Arrays.asList(objectMapper.readValue(jsonResponse, TweetDtoTest[].class));
-//
-//        assertThat(actualTweetList)
-//                .usingRecursiveFieldByFieldElementComparator()
-//                .containsExactly(
-//                        expectedMeteoAlert(),
-//                        expectedOtherAlert()
-//                );
-//    }
 
     @Test
     void fetchAllShouldSaveSingleAlertInMemory() throws Exception {
@@ -86,9 +67,6 @@ class MeteoAlertControllerMockMvcIT extends IntegrationTestBase {
 //                        meteoAlert(1, Set.of("burze", "burza", "deszcz", "grad"))
                 );
 
-        final MeteoAlert meteoAlert = meteoAlerts.get(0);
-        final OffsetDateTime actualCreationDate = ZonedDateTime.parse(meteoAlert.getCreationDate(), DateTimeFormatter.ISO_DATE_TIME).toOffsetDateTime();
-        assertThat(actualCreationDate).isAfter(startDateTime);
     }
 
 //    @Test
