@@ -1,25 +1,26 @@
 package com.thedariusz.warnme.twitter;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.thedariusz.warnme.twitter.model.Entity;
 
-@JsonIgnoreProperties(ignoreUnknown=true)
 public class TweetDto {
     private String id;
     private String text;
-    private String author_id;
-    private String created_at;
+    @JsonProperty("author_id")
+    private String authorId;
+    @JsonProperty("created_at")
+    private String createdAt;
     private Entity entities;
 
     public TweetDto(String id,
                     String text,
-                    String author_id,
-                    String created_at,
+                    String authorId,
+                    String createdAt,
                     Entity entity) {
         this.id = id;
         this.text = text;
-        this.author_id = author_id;
-        this.created_at = created_at;
+        this.authorId = authorId;
+        this.createdAt = createdAt;
         this.entities = entity;
     }
 
@@ -81,7 +82,7 @@ public class TweetDto {
     }
 
     public String getCreationDate() {
-        return created_at;
+        return createdAt;
     }
 
     public void setId(String id) {
@@ -92,20 +93,20 @@ public class TweetDto {
         this.text = text;
     }
 
-    public String getAuthor_id() {
-        return author_id;
+    public String getAuthorId() {
+        return authorId;
     }
 
-    public String getCreated_at() {
-        return created_at;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(String created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public void setAuthor_id(String author_id) {
-        this.author_id = author_id;
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
     }
 
     public Entity getEntities() {
@@ -121,8 +122,8 @@ public class TweetDto {
         return "TweetDto{" +
                 "id='" + id + '\'' +
                 ", text='" + text + '\'' +
-                ", author_id='" + author_id + '\'' +
-                ", created_at='" + created_at + '\'' +
+                ", author_id='" + authorId + '\'' +
+                ", created_at='" + createdAt + '\'' +
                 ", entities=" + entities +
                 '}';
     }
