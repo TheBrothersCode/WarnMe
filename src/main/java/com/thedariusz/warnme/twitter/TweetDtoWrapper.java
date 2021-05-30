@@ -3,12 +3,14 @@ package com.thedariusz.warnme.twitter;
 import com.thedariusz.warnme.twitter.model.Includes;
 import com.thedariusz.warnme.twitter.model.Meta;
 
+import java.util.List;
+
 public class TweetDtoWrapper {
-    TweetDto[] data;
+    List<TweetDto> data;
     Includes includes;
     Meta meta;
 
-    public TweetDtoWrapper(TweetDto[] data, Includes includes, Meta meta) {
+    public TweetDtoWrapper(List<TweetDto> data, Includes includes, Meta meta) {
         this.data = data;
         this.includes = includes;
         this.meta = meta;
@@ -17,11 +19,11 @@ public class TweetDtoWrapper {
     public TweetDtoWrapper() {
     }
 
-    public TweetDto[] getData() {
+    public List<TweetDto> getData() {
         return data;
     }
 
-    public void setData(TweetDto[] data) {
+    public void setData(List<TweetDto> data) {
         this.data = data;
     }
 

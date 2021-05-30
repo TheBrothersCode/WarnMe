@@ -6,11 +6,12 @@ import com.thedariusz.warnme.twitter.model.Hashtag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 public class TweetService {
 
@@ -43,8 +44,8 @@ public class TweetService {
     public void syncTweets(String twitterUserId) {
 
         TweetDtoWrapper allTweetsStructure = twitterClient.fetchAllTweets(twitterUserId);
-        TweetDto[] allTweetsBody = allTweetsStructure.getData();
-        List<MeteoAlert> meteoAlerts = Arrays.asList(allTweetsBody).stream()
+        List<TweetDto> allTweetsBody = allTweetsStructure.getData();
+        List<MeteoAlert> meteoAlerts = allTweetsBody.stream()
                 .peek(tweetDto -> logger.info("\n Analyzing tweet: ------------------------------\n{}", tweetDto))
                 .filter(this::isMeteoAlert)
                 .map(meteoAlertMapper::mapToMeteoAlertFromTweet)
@@ -54,21 +55,21 @@ public class TweetService {
     }
 
     boolean isMeteoAlert(TweetDto tweetDto) {
-        TweetType tweetType = getTweetTypeBasedOnHashTags(tweetDto.getEntities().getHashtags());
+        TweetType tweetType = getTweetTypeBasedOnHashTags(tweetDto.getEntity().getHashtags());
         return tweetType.equals(TweetType.METEO_ALERT);
     }
 
-    TweetType getTweetTypeBasedOnHashTags(Hashtag[] hashTags) {
-        if (hashTags==null) {
+    TweetType getTweetTypeBasedOnHashTags(List<Hashtag> hashTags) {
+        if (isEmpty(hashTags)) {
             return TweetType.OTHER;
         }
 
-        TweetType tweetType = Arrays.asList(hashTags)
+        TweetType tweetType = hashTags
                 .stream()
                 .map(hashtag -> hashtag.getTag().toLowerCase())
                 .anyMatch(getMeteoKeywords()::contains) ? TweetType.METEO : TweetType.OTHER;
 
-        boolean hasMeteoAlertKeywords = Arrays.asList(hashTags)
+        boolean hasMeteoAlertKeywords = hashTags
                 .stream()
                 .map(hashtag -> hashtag.getTag().toLowerCase())
                 .anyMatch(getMeteoAlertKeywords()::contains);

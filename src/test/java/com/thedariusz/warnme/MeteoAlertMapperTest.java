@@ -8,7 +8,9 @@ import com.thedariusz.warnme.twitter.model.Url;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,11 +22,12 @@ class MeteoAlertMapperTest {
     @Test
     void shouldMapToMeteoAlertWithLevelNotFound() {
         //given
-        final String[] exampleOfHashtags = {"burze", "wichura"};
-        Hashtag[] hashtags = Arrays.stream(exampleOfHashtags)
+        final List<String> exampleOfHashtags = List.of("burze", "wichura");
+        List<Hashtag> hashtags = exampleOfHashtags.stream()
                 .map(Hashtag::new)
-                .toArray(Hashtag[]::new);
-        Entity entity = new Entity(new Url[]{}, hashtags);
+                .collect(Collectors.toList());
+
+        Entity entity = new Entity(null, hashtags);
 
         TweetDto tweetWithoutMeaningfulText = TweetDto.builder()
                 .withId("1")
@@ -51,11 +54,12 @@ class MeteoAlertMapperTest {
     @Test
     void shouldMapToMeteoAlertWithLevelOne() {
         //given
-        final String[] exampleOfHashtags = {"burze", "wichura"};
-        Hashtag[] hashtags = Arrays.stream(exampleOfHashtags)
+        final List<String> exampleOfHashtags = List.of("burze", "wichura");
+        List<Hashtag> hashtags = exampleOfHashtags.stream()
                 .map(Hashtag::new)
-                .toArray(Hashtag[]::new);
-        Entity entity = new Entity(new Url[]{}, hashtags);
+                .collect(Collectors.toList());
+
+        Entity entity = new Entity(null, hashtags);
 
         TweetDto tweetDtoWithAllFields = TweetDto.builder()
                 .withId("1")

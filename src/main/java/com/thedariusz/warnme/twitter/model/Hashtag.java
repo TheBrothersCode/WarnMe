@@ -3,6 +3,9 @@ package com.thedariusz.warnme.twitter.model;
 public class Hashtag {
     private String tag;
 
+    public Hashtag() {
+    }
+
     public String getTag() {
         return tag;
     }
@@ -13,8 +16,5 @@ public class Hashtag {
 
     public Hashtag(String tag) {
         this.tag = tag;
-    }
-
-    public Hashtag() {
     }
 }

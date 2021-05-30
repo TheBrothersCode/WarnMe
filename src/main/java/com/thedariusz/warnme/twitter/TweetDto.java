@@ -6,11 +6,10 @@ import com.thedariusz.warnme.twitter.model.Entity;
 public class TweetDto {
     private String id;
     private String text;
-    @JsonProperty("author_id")
     private String authorId;
-    @JsonProperty("created_at")
     private String createdAt;
-    private Entity entities;
+    @JsonProperty("entities")
+    private Entity entity;
 
     public TweetDto(String id,
                     String text,
@@ -21,11 +20,12 @@ public class TweetDto {
         this.text = text;
         this.authorId = authorId;
         this.createdAt = createdAt;
-        this.entities = entity;
+        this.entity = entity;
     }
 
     public TweetDto() {
     }
+
     public static TweetDtoBuilder builder() {
         return new TweetDtoBuilder();
     }
@@ -33,8 +33,8 @@ public class TweetDto {
     public static final class TweetDtoBuilder {
         private String id;
         private String text;
-        private String author_id;
-        private String created_at;
+        private String authorId;
+        private String createdAt;
         private Entity entity;
 
         private TweetDtoBuilder() {
@@ -51,12 +51,12 @@ public class TweetDto {
         }
 
         public TweetDtoBuilder withAuthorId(String authorId) {
-            this.author_id = authorId;
+            this.authorId = authorId;
             return this;
         }
 
         public TweetDtoBuilder withCreationDate(String creationDate) {
-            this.created_at = creationDate;
+            this.createdAt = creationDate;
             return this;
         }
 
@@ -66,23 +66,20 @@ public class TweetDto {
         }
 
         public TweetDto build() {
-            return new TweetDto(id, text, author_id, created_at, entity);
+            return new TweetDto(id, text, authorId, createdAt, entity);
         }
 
         public TweetDto fakeTweet(String id, String creationDate, String twitterUserId, Entity entity, String text) {
-            return new TweetDto(id, text, twitterUserId, creationDate,  entity);
+            return new TweetDto(id, text, twitterUserId, creationDate, entity);
         }
     }
+
     public String getId() {
         return id;
     }
 
     public String getText() {
         return text;
-    }
-
-    public String getCreationDate() {
-        return createdAt;
     }
 
     public void setId(String id) {
@@ -109,12 +106,12 @@ public class TweetDto {
         this.authorId = authorId;
     }
 
-    public Entity getEntities() {
-        return entities;
+    public Entity getEntity() {
+        return entity;
     }
 
-    public void setEntities(Entity entities) {
-        this.entities = entities;
+    public void setEntity(Entity entity) {
+        this.entity = entity;
     }
 
     @Override
@@ -124,7 +121,7 @@ public class TweetDto {
                 ", text='" + text + '\'' +
                 ", author_id='" + authorId + '\'' +
                 ", created_at='" + createdAt + '\'' +
-                ", entities=" + entities +
+                ", entities=" + entity +
                 '}';
     }
 }

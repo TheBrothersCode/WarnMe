@@ -11,6 +11,8 @@ import com.thedariusz.warnme.twitter.repository.InMemoryMeteoAlertDao;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -25,10 +27,11 @@ class TweetServiceTest {
     @Test
     void shouldReturnMeteoTweetType(){
         //given
-        final String[] exampleOfHashtags = {"burze", "prognoza", "imgw"};
-        Hashtag[] hashtags = Arrays.stream(exampleOfHashtags)
+        final List<String> exampleOfHashtags = List.of("burze", "prognoza", "imgw");
+        List<Hashtag> hashtags = exampleOfHashtags.stream()
                 .map(Hashtag::new)
-                .toArray(Hashtag[]::new);
+                .collect(Collectors.toList());
+
         //when
         TweetService.TweetType tweetTypeBasedOnHashTags = tweetService.getTweetTypeBasedOnHashTags(hashtags);
 
@@ -41,10 +44,10 @@ class TweetServiceTest {
     @Test
     void shouldReturnMeteoAlertTweetType(){
         //given
-        final String[] exampleOfHashtags = {"burza", "ostrzeżenie", "imgw"};
-        Hashtag[] hashtags = Arrays.stream(exampleOfHashtags)
+        final List<String> exampleOfHashtags = List.of("burza", "ostrzeżenie", "imgw");
+        List<Hashtag> hashtags = exampleOfHashtags.stream()
                 .map(Hashtag::new)
-                .toArray(Hashtag[]::new);
+                .collect(Collectors.toList());
         //when
         TweetService.TweetType tweetTypeBasedOnHashTags = tweetService.getTweetTypeBasedOnHashTags(hashtags);
 
@@ -56,10 +59,11 @@ class TweetServiceTest {
     @Test
     void shouldReturnOtherAlertTweetType(){
         //given
-        final String[] exampleOfHashtags = {"wiosna", "majówka", "imgw"};
-        Hashtag[] hashtags = Arrays.stream(exampleOfHashtags)
+        final List<String> exampleOfHashtags = List.of("wiosna", "majówka", "imgw");
+        List<Hashtag> hashtags = exampleOfHashtags.stream()
                 .map(Hashtag::new)
-                .toArray(Hashtag[]::new);
+                .collect(Collectors.toList());
+
         //when
         TweetService.TweetType tweetTypeBasedOnHashTags = tweetService.getTweetTypeBasedOnHashTags(hashtags);
 
@@ -71,10 +75,11 @@ class TweetServiceTest {
     @Test
     void tweetWithMeteoAlertShouldReturnTrue(){
         //given
-        final String[] exampleOfHashtags = {"burza", "ostrzeżenie", "imgw"};
-        Hashtag[] hashtags = Arrays.stream(exampleOfHashtags)
+        final List<String> exampleOfHashtags = List.of("burza", "ostrzeżenie", "imgw");
+        List<Hashtag> hashtags = exampleOfHashtags.stream()
                 .map(Hashtag::new)
-                .toArray(Hashtag[]::new);
+                .collect(Collectors.toList());
+
         Entity entity = new Entity();
         entity.setHashtags(hashtags);
 
@@ -96,11 +101,11 @@ class TweetServiceTest {
     @Test
     void tweetWithoutMeteoAlertShouldReturnFalse(){
         //given
-        //given
-        final String[] exampleOfHashtags = {"wiosna", "pogoda", "imgw"};
-        Hashtag[] hashtags = Arrays.stream(exampleOfHashtags)
+        final List<String> exampleOfHashtags = List.of("wiosna", "pogoda", "imgw");
+        List<Hashtag> hashtags = exampleOfHashtags.stream()
                 .map(Hashtag::new)
-                .toArray(Hashtag[]::new);
+                .collect(Collectors.toList());
+
         Entity entity = new Entity();
         entity.setHashtags(hashtags);
 

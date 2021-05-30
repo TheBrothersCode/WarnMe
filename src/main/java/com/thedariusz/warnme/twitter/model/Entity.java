@@ -1,30 +1,32 @@
 package com.thedariusz.warnme.twitter.model;
 
-public class Entity {
-    Url[] urls;
-    Hashtag[] hashtags;
+import java.util.List;
 
-    public Entity(Url[] urls, Hashtag[] hashtags) {
+public class Entity {
+    List<Url> urls;
+    List<Hashtag> hashtags;
+
+    public Entity() {
+    }
+
+    public Entity(List<Url> urls, List<Hashtag> hashtags) {
         this.urls = urls;
         this.hashtags = hashtags;
     }
 
-    public Url[] getUrls() {
+    public List<Url> getUrls() {
         return urls;
     }
 
-    public void setUrls(Url[] urls) {
+    public void setUrls(List<Url> urls) {
         this.urls = urls;
     }
 
-    public Hashtag[] getHashtags() {
+    public List<Hashtag> getHashtags() {
         return hashtags;
     }
 
-    public void setHashtags(Hashtag[] hashtags) {
+    public void setHashtags(List<Hashtag> hashtags) {
         this.hashtags = hashtags;
-    }
-
-    public Entity() {
     }
 }
