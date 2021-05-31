@@ -47,7 +47,7 @@ public class MeteoAlertMapper {
     }
 
     private Set<String> getAlertCategories(TweetDto tweetDto) {
-        final Set<String> categoriesFromHashTags = meteoAlertCategoryMapper.getCategories(tweetDto.getEntity().getHashtags());
+        final Set<String> categoriesFromHashTags = meteoAlertCategoryMapper.getCategories(tweetDto.getEntities().getHashtags());
         final Set<String> categoriesFromText = meteoAlertCategoryMapper.getCategoriesFromText(tweetDto.getText());
 
         return Stream.of(categoriesFromHashTags, categoriesFromText)

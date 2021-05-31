@@ -1,5 +1,7 @@
 package com.thedariusz.warnme.twitter.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Url {
     private String expandedUrl;
     private int status;
@@ -20,6 +22,7 @@ public class Url {
         return expandedUrl;
     }
 
+    @JsonProperty("expanded_url")
     public void setExpandedUrl(String expandedUrl) {
         this.expandedUrl = expandedUrl;
     }

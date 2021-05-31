@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class MeteoAlertCategoryMapper {
 
     private static final Set<String> METEO_ALERTS_CATEGORIES =
-            Set.of("burze", "burza", "upał", "mróz", "przymrozki", "hydro", "deszcz", "wichura", "grad", "ulewa", "śnieg",
+            Set.of("burze", "burza", "upał", "mróz", "przymroz", "hydro", "deszcz", "wichura", "grad", "ulewa", "śnieg",
                     "burze z gradem", "intensywne opady deszczu", "intensywne opady śniegu", "mgła intensywnie osadzająca szadź",
                     "oblodzenie", "opady marznące", "opady śniegu", "roztopy", "silny deszcze z burzami",
                     "gęsta mgła", "silny mróz", "silny wiatr", "zawieje", "zamiecie śnieżne");
@@ -17,7 +17,8 @@ public class MeteoAlertCategoryMapper {
     public Set<String> getCategories(List<Hashtag> hashTags) {
         return hashTags
                 .stream()
-                .map(hashtag -> hashtag.getTag().toLowerCase())
+                .map(Hashtag::getTag)
+                .map(String::toLowerCase)
                 .filter(METEO_ALERTS_CATEGORIES::contains)
                 .collect(Collectors.toSet());
     }

@@ -8,19 +8,18 @@ public class TweetDto {
     private String text;
     private String authorId;
     private String createdAt;
-    @JsonProperty("entities")
-    private Entity entity;
+    private Entity entities;
 
     public TweetDto(String id,
                     String text,
                     String authorId,
                     String createdAt,
-                    Entity entity) {
+                    Entity entities) {
         this.id = id;
         this.text = text;
         this.authorId = authorId;
         this.createdAt = createdAt;
-        this.entity = entity;
+        this.entities = entities;
     }
 
     public TweetDto() {
@@ -98,20 +97,22 @@ public class TweetDto {
         return createdAt;
     }
 
+    @JsonProperty("created_at")
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
+    @JsonProperty("author_id")
     public void setAuthorId(String authorId) {
         this.authorId = authorId;
     }
 
-    public Entity getEntity() {
-        return entity;
+    public Entity getEntities() {
+        return entities;
     }
 
-    public void setEntity(Entity entity) {
-        this.entity = entity;
+    public void setEntities(Entity entities) {
+        this.entities = entities;
     }
 
     @Override
@@ -121,7 +122,7 @@ public class TweetDto {
                 ", text='" + text + '\'' +
                 ", author_id='" + authorId + '\'' +
                 ", created_at='" + createdAt + '\'' +
-                ", entities=" + entity +
+                ", entities=" + entities +
                 '}';
     }
 }

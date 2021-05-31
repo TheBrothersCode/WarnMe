@@ -1,5 +1,7 @@
 package com.thedariusz.warnme.twitter.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Media {
     private String type;
     private int height;
@@ -46,6 +48,7 @@ public class Media {
         return mediaKey;
     }
 
+    @JsonProperty("media_key")
     public void setMediaKey(String mediaKey) {
         this.mediaKey = mediaKey;
     }
