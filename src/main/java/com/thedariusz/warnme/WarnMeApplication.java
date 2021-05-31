@@ -4,11 +4,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.thedariusz.warnme.twitter.TweetService;
+import com.thedariusz.warnme.twitter.TwitterClient;
+import com.thedariusz.warnme.twitter.client.FakeTwitterClient;
 import com.thedariusz.warnme.twitter.client.SpringTwitterClient;
 import com.thedariusz.warnme.twitter.repository.InMemoryMeteoAlertDao;
-import com.thedariusz.warnme.twitter.TweetService;
-import com.thedariusz.warnme.twitter.client.FakeTwitterClient;
-import com.thedariusz.warnme.twitter.TwitterClient;
 import com.thedariusz.warnme.twitter.repository.MySqlMeteoAlertDao;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -68,6 +68,5 @@ public class WarnMeApplication {
 	public TweetService tweetService(MeteoAlertService meteoAlertService, TwitterClient twitterClient) {
 		return new TweetService(meteoAlertService, twitterClient, new MeteoAlertMapper(new MeteoAlertCategoryMapper()));
 	}
-
 
 }

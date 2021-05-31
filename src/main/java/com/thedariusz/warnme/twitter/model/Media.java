@@ -3,6 +3,7 @@ package com.thedariusz.warnme.twitter.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Media {
+
     private String type;
     private int height;
     private int width;

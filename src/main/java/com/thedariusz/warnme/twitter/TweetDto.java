@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.thedariusz.warnme.twitter.model.Entity;
 
 public class TweetDto {
+
     private String id;
     private String text;
     private String authorId;

@@ -42,7 +42,6 @@ public class TweetService {
     }
 
     public void syncTweets(String twitterUserId) {
-
         TweetDtoWrapper allTweetsStructure = twitterClient.fetchAllTweets(twitterUserId);
         List<TweetDto> allTweetsBody = allTweetsStructure.getData();
         List<MeteoAlert> meteoAlerts = allTweetsBody.stream()
@@ -66,14 +65,14 @@ public class TweetService {
 
         TweetType tweetType = hashTags
                 .stream()
-                .map(hashtag -> hashtag.getTag())
-                .map(tag -> tag.toLowerCase())
+                .map(Hashtag::getTag)
+                .map(String::toLowerCase)
                 .anyMatch(getMeteoKeywords()::contains) ? TweetType.METEO : TweetType.OTHER;
 
         boolean hasMeteoAlertKeywords = hashTags
                 .stream()
-                .map(hashtag -> hashtag.getTag().toLowerCase())
-                .map(tag -> tag.toLowerCase())
+                .map(Hashtag::getTag)
+                .map(String::toLowerCase)
                 .anyMatch(getMeteoAlertKeywords()::contains);
 
         if (tweetType.equals(TweetType.METEO) && hasMeteoAlertKeywords) {

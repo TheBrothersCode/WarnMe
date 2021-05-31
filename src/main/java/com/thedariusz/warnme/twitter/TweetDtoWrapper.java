@@ -6,6 +6,7 @@ import com.thedariusz.warnme.twitter.model.Meta;
 import java.util.List;
 
 public class TweetDtoWrapper {
+
     List<TweetDto> data;
     Includes includes;
     Meta meta;

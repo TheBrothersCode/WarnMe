@@ -1,6 +1,7 @@
 package com.thedariusz.warnme.twitter.model;
 
 public class Hashtag {
+
     private String tag;
 
     public Hashtag() {

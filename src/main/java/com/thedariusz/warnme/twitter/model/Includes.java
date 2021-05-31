@@ -3,6 +3,7 @@ package com.thedariusz.warnme.twitter.model;
 import java.util.List;
 
 public class Includes {
+
     List<Media> media;
 
     public Includes(List<Media> media) {

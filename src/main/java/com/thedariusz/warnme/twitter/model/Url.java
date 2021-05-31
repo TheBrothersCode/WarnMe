@@ -3,6 +3,7 @@ package com.thedariusz.warnme.twitter.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Url {
+
     private String expandedUrl;
     private int status;
     private String title;
