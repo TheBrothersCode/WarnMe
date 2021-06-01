@@ -1,0 +1,22 @@
+
+version: '3.8'
+
+services:
+
+  db:
+    container_name: pg_container
+    build:
+      context: ./db_init/
+    image: postgres:13.3-alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data/
+
+  pgadmin:
+    image: chorss/docker-pgadmin4
+    ports:
+      - 5050:5050
+volumes:
+  pg_data:
