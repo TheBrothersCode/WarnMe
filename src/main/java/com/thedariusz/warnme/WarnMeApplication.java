@@ -39,12 +39,12 @@ public class WarnMeApplication {
 	}
 
 	@Bean
-	@Primary
 	public MeteoAlertDao inMemoryMeteoAlertDao() {
 		return new InMemoryMeteoAlertDao();
 	}
 
 	@Bean
+	@Primary
 	public MeteoAlertDao postgresMeteoAlertDao(MeteoAlertSpringDao meteoAlertSpringDao) {
 		return new PostgresMeteoAlertDao(meteoAlertSpringDao);
 	}

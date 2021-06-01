@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@Table(name="meteo_alert")
 public class MeteoAlert {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
