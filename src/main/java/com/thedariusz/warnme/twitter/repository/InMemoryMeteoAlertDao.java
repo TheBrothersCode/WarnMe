@@ -28,8 +28,8 @@ public class InMemoryMeteoAlertDao implements MeteoAlertDao {
     @Override
     public boolean existsByExternalId(MeteoAlert newAlert) {
         for (MeteoAlert meteoAlert : DB_METEO_ALERTS) {
-            String alertOriginalId = newAlert.getAlertOriginalId();
-            if (meteoAlert.getAlertOriginalId().equals(alertOriginalId)) {
+            String alertOriginalId = newAlert.getExternalId();
+            if (meteoAlert.getExternalId().equals(alertOriginalId)) {
                 return true;
             }
         }

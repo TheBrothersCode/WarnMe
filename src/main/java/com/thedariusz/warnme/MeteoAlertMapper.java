@@ -29,7 +29,7 @@ public class MeteoAlertMapper {
                 getAlertCategories(tweetDto),
                 tweetDto.getCreatedAt(),
                 tweetDto.getText(),
-                new MeteoAlertOrigin("Twitter", tweetDto.getAuthorId(), tweetDto.getId()),
+                tweetDto.getId(),
                 null //todo list of urls
         );
     }

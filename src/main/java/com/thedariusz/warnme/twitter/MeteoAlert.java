@@ -1,32 +1,32 @@
 package com.thedariusz.warnme.twitter;
 
-import com.thedariusz.warnme.MeteoAlertOrigin;
-
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.List;
 import java.util.Set;
 
+@Entity
 public class MeteoAlert {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int level;
+    @ElementCollection
     private Set<String> categories;
     private String creationDate;
     private String description;
     private String externalId;
+    @ElementCollection
     private List<String> media;
-//    private MeteoAlertOrigin meteoAlertOrigin;
 
-//    public MeteoAlert(int level, Set<String> categories, String creationDate, String description, MeteoAlertOrigin meteoAlertOrigin, List<String> media) {
-//        this.level = level;
-//        this.categories = categories;
-//        this.creationDate = creationDate;
-//        this.description = description;
-//        this.meteoAlertOrigin = meteoAlertOrigin;
-//        this.media = media;
-//    }
+    public MeteoAlert() {
+    }
 
-
-    public MeteoAlert(Long id, int level, Set<String> categories, String creationDate, String description, String externalId, List<String> media) {
-        this.id = id;
+    public MeteoAlert(int level, Set<String> categories, String creationDate, String description, String externalId, List<String> media) {
         this.level = level;
         this.categories = categories;
         this.creationDate = creationDate;
@@ -42,26 +42,6 @@ public class MeteoAlert {
     public void setId(Long id) {
         this.id = id;
     }
-
-//    public MeteoAlertOrigin getMeteoAlertOrigin() {
-//        return meteoAlertOrigin;
-//    }
-//
-//    public void setMeteoAlertOrigin(MeteoAlertOrigin meteoAlertOrigin) {
-//        this.meteoAlertOrigin = meteoAlertOrigin;
-//    }
-//
-//    public MeteoAlertOrigin getAlertSource() {
-//        return meteoAlertOrigin;
-//    }
-//
-//    public String getAlertOriginalId() {
-//        return meteoAlertOrigin.getOriginalId();
-//    }
-//
-//    public void setAlertSource(MeteoAlertOrigin meteoAlertOrigin) {
-//        this.meteoAlertOrigin = meteoAlertOrigin;
-//    }
 
     public List<String> getMedia() {
         return media;
@@ -114,12 +94,14 @@ public class MeteoAlert {
     @Override
     public String toString() {
         return "MeteoAlert{" +
+                "id=" + id +
                 ", level=" + level +
-                ", categories='" + categories + '\'' +
+                ", categories=" + categories +
                 ", creationDate='" + creationDate + '\'' +
                 ", description='" + description + '\'' +
-                ", externalId=" + externalId +
+                ", externalId='" + externalId + '\'' +
                 ", media=" + media +
                 '}';
     }
+
 }

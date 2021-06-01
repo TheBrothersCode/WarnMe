@@ -110,7 +110,7 @@ class MeteoAlertControllerMockMvcIT extends IntegrationTestBase {
 
     private MeteoAlert meteoAlert(int level, Set<String> categories) {
         final MeteoAlertOrigin meteoAlertOrigin = new MeteoAlertOrigin("Twitter", "1139834822011084801", "1");
-        return new MeteoAlert(level, categories, null, null, meteoAlertOrigin, null);
+        return new MeteoAlert(level, categories, null, null, "1139834822011084801", null);
     }
 
 }

@@ -5,11 +5,17 @@ import com.thedariusz.warnme.twitter.MeteoAlert;
 
 import java.util.List;
 
-public class MySqlMeteoAlertDao implements MeteoAlertDao {
+public class PostgresMeteoAlertDao implements MeteoAlertDao {
+
+    private final MeteoAlertSpringDao dao;
+
+    public PostgresMeteoAlertDao(MeteoAlertSpringDao dao) {
+        this.dao = dao;
+    }
 
     @Override
     public void save(MeteoAlert meteoAlert) {
-
+        dao.save(meteoAlert);
     }
 
     @Override
