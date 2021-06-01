@@ -1,40 +1,54 @@
 package com.thedariusz.warnme.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.net.HttpHeaders;
 import com.thedariusz.warnme.MeteoAlertDao;
 import com.thedariusz.warnme.MeteoAlertOrigin;
 import com.thedariusz.warnme.twitter.MeteoAlert;
+import com.thedariusz.warnme.twitter.TwitterClientConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockserver.integration.ClientAndServer;
+import org.mockserver.model.HttpRequest;
+import org.mockserver.model.HttpResponse;
+import org.mockserver.model.JsonBody;
+import org.mockserver.model.MediaType;
+import org.mockserver.model.RequestDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.http.MediaType;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
-import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Set;
 
-import static com.thedariusz.warnme.api.IntegrationTestBase.TweetDtoTest.AuthorDtoTest;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = MeteoAlertController.class)
+@Import(TwitterClientConfiguration.class)
+@TestPropertySource(properties = {
+        "my.twitter.baseurl=http://localhost:8092/2",
+})
 class MeteoAlertControllerMockMvcIT extends IntegrationTestBase {
-
+    static final String ALERTS_PATH = "/alerts";
+    private static final int PORT = 8092;
+    @Value("${my.twitter.token}")
+    private String token;
+    static ClientAndServer mockServer;
+    
     @Autowired
     MockMvc mockMvc;
 
@@ -47,96 +61,61 @@ class MeteoAlertControllerMockMvcIT extends IntegrationTestBase {
     @BeforeEach
     public void init() {
         meteoAlertDao.deleteAll();
+        mockServer.reset();
     }
 
-    @Test
-    @Disabled
-    void shouldReturnAllAlerts() throws Exception {
-        final MvcResult mvcResult = mockMvc.perform(get(ALERTS_PATH))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andReturn();
-
-        final String jsonResponse = mvcResult.getResponse().getContentAsString();
-        final List<TweetDtoTest> actualTweetList = Arrays.asList(objectMapper.readValue(jsonResponse, TweetDtoTest[].class));
-
-        assertThat(actualTweetList)
-                .usingRecursiveFieldByFieldElementComparator()
-                .containsExactly(
-                        expectedMeteoAlert(),
-                        expectedOtherAlert()
-                );
+    @BeforeAll
+    public static void setup() {
+        mockServer = ClientAndServer.startClientAndServer(PORT);
     }
 
     @Test
     void fetchAllShouldSaveSingleAlertInMemory() throws Exception {
         //given
-        final OffsetDateTime startDateTime = OffsetDateTime.now();
-
-        mockMvc.perform(post(ALERTS_PATH + "/1139834822011084801"))
+        String userId = "1";
+        mockTwitterResponse(userId);
+        
+        mockMvc.perform(post(ALERTS_PATH + "/1"))
                 .andDo(print())
                 .andExpect(status().isOk());
 
 
         final List<MeteoAlert> meteoAlerts = meteoAlertDao.fetchAll();
         assertThat(meteoAlerts)
-                .hasSize(2)
+                .hasSize(1)
                 .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
-                        .withIgnoredFields("creationDate", "description", "media", "alertOrigin")
+                        .withIgnoredFields("creationDate", "description", "media", "meteoAlertOrigin")
                         .build())
                 .contains(
-                        meteoAlert(2, Set.of("burze", "burze z gradem", "deszcz", "grad"))
+                        meteoAlert(0, Set.of("burze"))
 //                        meteoAlert(1, Set.of("burze", "burza", "deszcz", "grad"))
                 );
 
-        final MeteoAlert meteoAlert = meteoAlerts.get(0);
-        final OffsetDateTime actualCreationDate = ZonedDateTime.parse(meteoAlert.getCreationDate(), DateTimeFormatter.ISO_DATE_TIME).toOffsetDateTime();
-        assertThat(actualCreationDate).isAfter(startDateTime);
     }
 
-//    @Test
-//    void fetchAllShouldSaveManyAlertsInMemory() throws Exception {
-//        mockMvc.perform(post(ALERTS_PATH + "/2979632800"))
-//                .andDo(print())
-//                .andExpect(status().isOk());
-//
-//        assertThat(meteoAlertDao.fetchAll())
-//                .hasSize(2)
-//                .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
-//                        .withIgnoredFields("level", "categories", "description", "media")
-//                        .build())
-//                .contains(
-//                        meteoAlert("2021-05-11T11:10:10.000Z", meteoAlertOrigin("10")),
-//                        meteoAlert("2021-03-12T17:05:02.000Z", meteoAlertOrigin("20"))
-//                );
-//    }
-//
-
-    private TweetDtoTest expectedMeteoAlert() {
-        return new TweetDtoTest(
-                "1",
-                "test",
-                new AuthorDtoTest("1", "imgw", "imgw ipb"),
-                "2021-05-06",
-                List.of("url1", "url2"),
-                List.of("burze")
-        );
+    private void mockTwitterResponse(String userId) {
+        mockServer.when(fetchAllTweetsRequest(userId))
+                .respond(this::allTweetsResponse);
     }
 
-    private TweetDtoTest expectedOtherAlert() {
-        return new TweetDtoTest(
-                "2",
-                "test",
-                new AuthorDtoTest("1", "imgw", "imgw ipb"),
-                "2021-05-06",
-                List.of("photo1", "photo2"),
-                List.of("burze")
-        );
+    private HttpResponse allTweetsResponse(HttpRequest request) throws IOException {
+        String jsonResponse = Files.readString(Path.of("src/test/resources/twitter_response.json"));
+        return HttpResponse.response()
+                .withStatusCode(200)
+                .withContentType(MediaType.APPLICATION_JSON)
+                .withBody(JsonBody.json(jsonResponse));
+    }
+
+    private RequestDefinition fetchAllTweetsRequest(String userId) {
+        return HttpRequest.request()
+                .withMethod("GET")
+                .withPath("/2/users/" + userId + "/tweets")
+                .withContentType(MediaType.APPLICATION_JSON)
+                .withHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
     }
 
     private MeteoAlert meteoAlert(int level, Set<String> categories) {
-        final MeteoAlertOrigin meteoAlertOrigin = new MeteoAlertOrigin("Twitter", "imgw", "1");
+        final MeteoAlertOrigin meteoAlertOrigin = new MeteoAlertOrigin("Twitter", "1139834822011084801", "1");
         return new MeteoAlert(level, categories, null, null, meteoAlertOrigin, null);
     }
 

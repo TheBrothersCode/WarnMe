@@ -1,14 +1,12 @@
 package com.thedariusz.warnme.twitter.repository;
 
-import com.thedariusz.warnme.twitter.MeteoAlert;
 import com.thedariusz.warnme.MeteoAlertDao;
+import com.thedariusz.warnme.twitter.MeteoAlert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class InMemoryMeteoAlertDao implements MeteoAlertDao {
 
@@ -18,7 +16,7 @@ public class InMemoryMeteoAlertDao implements MeteoAlertDao {
 
     @Override
     public void save(MeteoAlert meteoAlert) {
-        logger.info("Saving {}", meteoAlert);
+        logger.info("\nSaving to DB: -----------------------------------\n{}", meteoAlert);
         DB_METEO_ALERTS.add(meteoAlert);
     }
 

@@ -1,8 +1,7 @@
 package com.thedariusz.warnme.twitter;
 
 public class AuthorDto {
-
-    private final String id;
+    private final String authorId;
     private final String name;
     private final String username;
 
@@ -10,14 +9,14 @@ public class AuthorDto {
         return new AuthorDto(twitterUserId, "imgw", "imgw ipb");
     }
 
-    private AuthorDto(String id, String name, String username) {
-        this.id = id;
+    private AuthorDto(String authorId, String name, String username) {
+        this.authorId = authorId;
         this.name = name;
         this.username = username;
     }
 
-    public String getId() {
-        return id;
+    public String getAuthorId() {
+        return authorId;
     }
 
     public String getName() {

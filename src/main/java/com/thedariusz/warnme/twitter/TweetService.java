@@ -2,11 +2,16 @@ package com.thedariusz.warnme.twitter;
 
 import com.thedariusz.warnme.MeteoAlertMapper;
 import com.thedariusz.warnme.MeteoAlertService;
+import com.thedariusz.warnme.twitter.model.Hashtag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static org.springframework.util.CollectionUtils.isEmpty;
 
 public class TweetService {
 
@@ -15,7 +20,7 @@ public class TweetService {
         METEO_ALERT,
         OTHER
     }
-
+    private static final Logger logger = LoggerFactory.getLogger(TweetService.class);
     private static final Map<TweetType, Set<String>> TWEET_TYPE_TO_KEYWORDS = Map.of(
             TweetType.METEO, Set.of("meteo", "weather", "pogoda", "burze", "burza",
                     "upał", "mróz", "meteoimgw", "przymrozki", "temperatura", "hydro",
@@ -37,9 +42,10 @@ public class TweetService {
     }
 
     public void syncTweets(String twitterUserId) {
-        List<TweetDto> allTweets = twitterClient.fetchAllTweets(twitterUserId);
-
-        List<MeteoAlert> meteoAlerts = allTweets.stream()
+        TweetDtoWrapper allTweetsStructure = twitterClient.fetchAllTweets(twitterUserId);
+        List<TweetDto> allTweetsBody = allTweetsStructure.getData();
+        List<MeteoAlert> meteoAlerts = allTweetsBody.stream()
+                .peek(tweetDto -> logger.info("\n Analyzing tweet: ------------------------------\n{}", tweetDto))
                 .filter(this::isMeteoAlert)
                 .map(meteoAlertMapper::mapToMeteoAlertFromTweet)
                 .collect(Collectors.toList());
@@ -48,19 +54,24 @@ public class TweetService {
     }
 
     boolean isMeteoAlert(TweetDto tweetDto) {
-        TweetType tweetType = getTweetTypeBasedOnHashTags(tweetDto.getHashTags());
+        TweetType tweetType = getTweetTypeBasedOnHashTags(tweetDto.getEntities().getHashtags());
         return tweetType.equals(TweetType.METEO_ALERT);
     }
 
-    TweetType getTweetTypeBasedOnHashTags(List<String> hashTags) {
+    TweetType getTweetTypeBasedOnHashTags(List<Hashtag> hashTags) {
+        if (isEmpty(hashTags)) {
+            return TweetType.OTHER;
+        }
 
         TweetType tweetType = hashTags
                 .stream()
+                .map(Hashtag::getTag)
                 .map(String::toLowerCase)
                 .anyMatch(getMeteoKeywords()::contains) ? TweetType.METEO : TweetType.OTHER;
 
         boolean hasMeteoAlertKeywords = hashTags
                 .stream()
+                .map(Hashtag::getTag)
                 .map(String::toLowerCase)
                 .anyMatch(getMeteoAlertKeywords()::contains);
 
@@ -77,4 +88,5 @@ public class TweetService {
     private Set<String> getMeteoAlertKeywords() {
         return TWEET_TYPE_TO_KEYWORDS.get(TweetType.METEO_ALERT);
     }
+
 }
