@@ -39,16 +39,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(controllers = MeteoAlertController.class)
 @Import(TwitterClientConfiguration.class)
-@TestPropertySource(properties = {
-        "my.twitter.baseurl=http://localhost:8092/2",
-})
 class MeteoAlertControllerMockMvcIT extends IntegrationTestBase {
-    static final String ALERTS_PATH = "/alerts";
-    private static final int PORT = 8092;
-    @Value("${my.twitter.token}")
-    private String token;
+
     static ClientAndServer mockServer;
-    
+
     @Autowired
     MockMvc mockMvc;
 
@@ -66,7 +60,7 @@ class MeteoAlertControllerMockMvcIT extends IntegrationTestBase {
 
     @BeforeAll
     public static void setup() {
-        mockServer = ClientAndServer.startClientAndServer(PORT);
+        mockServer = ClientAndServer.startClientAndServer(8092);
     }
 
     @Test
@@ -111,7 +105,7 @@ class MeteoAlertControllerMockMvcIT extends IntegrationTestBase {
                 .withMethod("GET")
                 .withPath("/2/users/" + userId + "/tweets")
                 .withContentType(MediaType.APPLICATION_JSON)
-                .withHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+                .withHeader(HttpHeaders.AUTHORIZATION, "Bearer abc");
     }
 
     private MeteoAlert meteoAlert(int level, Set<String> categories) {
