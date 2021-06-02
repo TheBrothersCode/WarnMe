@@ -20,6 +20,7 @@
         <postgresql.version>42.2.20</postgresql.version>
         <maven.plugins>3.0.0-M5</maven.plugins>
         <testcontainers.version>1.15.2</testcontainers.version>
+        <flyway.version>7.9.1</flyway.version>
     </properties>
 
     <packaging>war</packaging>
@@ -49,6 +50,11 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mock-server</groupId>
