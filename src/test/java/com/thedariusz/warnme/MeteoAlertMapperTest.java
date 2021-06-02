@@ -30,7 +30,7 @@ class MeteoAlertMapperTest {
         Entity entity = new Entity(null, hashtags);
 
         TweetDto tweetWithoutMeaningfulText = TweetDto.builder()
-                .withId("1")
+                .withId("1139834822011084801")
                 .withText("test")
                 .withAuthorId("1139834822011084801")
                 .withCreationDate("2021-05-06T10:13:17.000Z")
@@ -41,7 +41,7 @@ class MeteoAlertMapperTest {
         final MeteoAlert meteoAlert = meteoAlertMapper.mapToMeteoAlertFromTweet(tweetWithoutMeaningfulText);
 
         //then
-        final MeteoAlertOrigin meteoAlertOrigin = new MeteoAlertOrigin("Twitter", "1139834822011084801", "1");
+        final MeteoAlertOrigin meteoAlertOrigin = new MeteoAlertOrigin("Twitter", "1139834822011084801", "1139834822011084801");
         final MeteoAlert expectedAlertWithLeveNotFound = new MeteoAlert(0, Set.of("burze", "wichura"),
                 "2021-05-06T10:13:17.000Z", "test", "1139834822011084801", null);
 
@@ -62,7 +62,7 @@ class MeteoAlertMapperTest {
         Entity entity = new Entity(null, hashtags);
 
         TweetDto tweetDtoWithAllFields = TweetDto.builder()
-                .withId("1")
+                .withId("1139834822011084801")
                 .withText("1 stopnia")
                 .withAuthorId("1139834822011084801")
                 .withCreationDate("2021-05-06T10:13:17.000Z")
@@ -73,7 +73,7 @@ class MeteoAlertMapperTest {
         final MeteoAlert meteoAlert = meteoAlertMapper.mapToMeteoAlertFromTweet(tweetDtoWithAllFields);
 
         //then
-        final MeteoAlertOrigin meteoAlertOrigin = new MeteoAlertOrigin("Twitter", "1139834822011084801", "1");
+        final MeteoAlertOrigin meteoAlertOrigin = new MeteoAlertOrigin("Twitter", "1139834822011084801", "1139834822011084801");
         final MeteoAlert expectedAlertWithLevelOne = new MeteoAlert(1, Set.of("burze", "wichura"),
                 "2021-05-06T10:13:17.000Z", "1 stopnia", "1139834822011084801", null);
 
