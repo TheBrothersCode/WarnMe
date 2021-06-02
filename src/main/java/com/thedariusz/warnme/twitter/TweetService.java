@@ -1,8 +1,9 @@
 package com.thedariusz.warnme.twitter;
 
-import com.thedariusz.warnme.MeteoAlertMapper;
+import com.thedariusz.warnme.TweetDtoMeteoAlertMapper;
 import com.thedariusz.warnme.MeteoAlertService;
 import com.thedariusz.warnme.twitter.model.Hashtag;
+import com.thedariusz.warnme.twitter.model.Media;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,21 +34,23 @@ public class TweetService {
 
     private final MeteoAlertService meteoAlertService;
     private final TwitterClient twitterClient;
-    private final MeteoAlertMapper meteoAlertMapper;
+    private final TweetDtoMeteoAlertMapper tweetDtoMeteoAlertMapper;
 
-    public TweetService(MeteoAlertService meteoAlertService, TwitterClient twitterClient, MeteoAlertMapper meteoAlertMapper) {
+    public TweetService(MeteoAlertService meteoAlertService, TwitterClient twitterClient, TweetDtoMeteoAlertMapper tweetDtoMeteoAlertMapper) {
         this.meteoAlertService = meteoAlertService;
         this.twitterClient = twitterClient;
-        this.meteoAlertMapper = meteoAlertMapper;
+        this.tweetDtoMeteoAlertMapper = tweetDtoMeteoAlertMapper;
     }
 
     public void syncTweets(String twitterUserId) {
-        TweetDtoWrapper allTweetsStructure = twitterClient.fetchAllTweets(twitterUserId);
-        List<TweetDto> allTweetsBody = allTweetsStructure.getData();
+        TweetDtoWrapper tweetDtoWrapper = twitterClient.fetchAllTweets(twitterUserId);
+        List<Media> media = tweetDtoWrapper.getMedia();
+
+        List<TweetDto> allTweetsBody = tweetDtoWrapper.getData();
+
         List<MeteoAlert> meteoAlerts = allTweetsBody.stream()
-                .peek(tweetDto -> logger.info("\n Analyzing tweet: ------------------------------\n{}", tweetDto))
                 .filter(this::isMeteoAlert)
-                .map(meteoAlertMapper::mapToMeteoAlertFromTweet)
+                .map(tweetDto -> tweetDtoMeteoAlertMapper.mapToMeteoAlertFromTweet(tweetDto, media))
                 .collect(Collectors.toList());
 
         meteoAlertService.save(meteoAlerts);

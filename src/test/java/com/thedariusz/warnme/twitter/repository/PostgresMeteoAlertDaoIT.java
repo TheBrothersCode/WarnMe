@@ -1,38 +1,40 @@
 package com.thedariusz.warnme.twitter.repository;
 
+import com.thedariusz.warnme.MeteoAlertDao;
+import com.thedariusz.warnme.MeteoAlertOrigin;
 import com.thedariusz.warnme.twitter.MeteoAlert;
-import com.thedariusz.warnme.twitter.TwitterClientConfiguration;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ExtendWith(SpringExtension.class)
-@Import(TwitterClientConfiguration.class)
+@SpringBootTest
 class PostgresMeteoAlertDaoIT {
 
     @Autowired
-    MeteoAlertSpringDao dao;
+    MeteoAlertDao dao;
 
     @Test
-    void save() {
-        dao.save(new MeteoAlert(1, Set.of("burze"), "20210601", "test test", "123", null));
-        List<MeteoAlert> meteoAlerts = dao.findAll();
+    void saveAndFetch() {
+        final MeteoAlertOrigin origin = MeteoAlertOrigin.twitter("a", "1");
+        MeteoAlert meteoAlert = new MeteoAlert(1, Set.of("a","b","c"), "", "", "", List.of("b"), origin);
+        dao.save(meteoAlert);
+
+        List<MeteoAlert> meteoAlerts = dao.fetchAll();
         MeteoAlert testAlert = meteoAlerts.get(0);
-        assertThat(testAlert)
-                .isNotNull();
+        assertThat(testAlert).isNotNull();
+        assertThat(testAlert.getCategories())
+                .hasSize(3)
+                .containsExactly("a", "b", "c");
+
+
+        assertThat(testAlert.getMeteoAlertOrigin())
+                .usingRecursiveComparison()
+                .isEqualTo(MeteoAlertOrigin.twitter("a", "1"));
     }
 
 }
