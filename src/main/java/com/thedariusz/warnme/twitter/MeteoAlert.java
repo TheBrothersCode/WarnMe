@@ -1,10 +1,14 @@
 package com.thedariusz.warnme.twitter;
 
+import com.thedariusz.warnme.MeteoAlertOrigin;
+
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import java.util.List;
 import java.util.Set;
@@ -23,6 +27,9 @@ public class MeteoAlert {
     private String externalId;
     @ElementCollection
     private List<String> media;
+    @OneToOne
+    @JoinColumn(name="alert_origin_id")
+    private MeteoAlertOrigin alertOrigin;
 
     public MeteoAlert() {
     }
@@ -90,6 +97,14 @@ public class MeteoAlert {
 
     public void setExternalId(String externalId) {
         this.externalId = externalId;
+    }
+
+    public MeteoAlertOrigin getAlertOrigin() {
+        return alertOrigin;
+    }
+
+    public void setAlertOrigin(MeteoAlertOrigin alertOrigin) {
+        this.alertOrigin = alertOrigin;
     }
 
     @Override

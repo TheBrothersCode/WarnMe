@@ -1,7 +1,19 @@
 package com.thedariusz.warnme;
 
-public class MeteoAlertOrigin {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name="meteo_alert_origin")
+public class MeteoAlertOrigin {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "alert_origin_id")
+    private Long id;
     private String sourceName;
     private String sourceAuthorId;
     private String originalId;
@@ -10,6 +22,17 @@ public class MeteoAlertOrigin {
         this.sourceName = sourceName;
         this.sourceAuthorId = sourceAuthorId;
         this.originalId = originalId;
+    }
+
+    public MeteoAlertOrigin() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getSourceName() {

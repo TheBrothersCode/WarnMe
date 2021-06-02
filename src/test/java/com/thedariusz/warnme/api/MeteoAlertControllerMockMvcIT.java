@@ -50,6 +50,8 @@ class MeteoAlertControllerMockMvcIT extends IntegrationTestBase {
     @Autowired
     MeteoAlertDao meteoAlertDao;
 
+
+
     @BeforeEach
     public void init() {
         meteoAlertDao.deleteAll();
