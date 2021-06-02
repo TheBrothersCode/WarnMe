@@ -2,6 +2,9 @@ package com.thedariusz.warnme.twitter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.thedariusz.warnme.twitter.model.Entity;
+import com.thedariusz.warnme.twitter.model.Hashtag;
+
+import java.util.List;
 
 public class TweetDto {
 
@@ -110,6 +113,10 @@ public class TweetDto {
 
     public Entity getEntities() {
         return entities;
+    }
+
+    public List<Hashtag> getHashtagsFromTweet() {
+        return entities.getHashtags();
     }
 
     public void setEntities(Entity entities) {

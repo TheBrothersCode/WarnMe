@@ -54,8 +54,11 @@ public class TweetService {
     }
 
     boolean isMeteoAlert(TweetDto tweetDto) {
-        TweetType tweetType = getTweetTypeBasedOnHashTags(tweetDto.getEntities().getHashtags());
-        return tweetType.equals(TweetType.METEO_ALERT);
+        TweetType tweetTypeFromTags = getTweetTypeBasedOnHashTags(tweetDto.getHashtagsFromTweet());
+        TweetType tweetTypeFromText = getTweetTypeBasedOnTweetText(tweetDto.getText());
+
+        return tweetTypeFromTags.equals(TweetType.METEO_ALERT) ||
+                tweetTypeFromText.equals(TweetType.METEO_ALERT);
     }
 
     TweetType getTweetTypeBasedOnHashTags(List<Hashtag> hashTags) {
@@ -78,6 +81,24 @@ public class TweetService {
         if (tweetType.equals(TweetType.METEO) && hasMeteoAlertKeywords) {
             tweetType = TweetType.METEO_ALERT;
         }
+        return tweetType;
+    }
+
+    private TweetType getTweetTypeBasedOnTweetText(String text) {
+        if (text.isBlank()) {
+            return TweetType.OTHER;
+        }
+
+        String lowerCaseText = text.toLowerCase();
+
+        TweetType tweetType = getMeteoKeywords().stream()
+                .anyMatch(lowerCaseText::contains) ? TweetType.METEO:TweetType.OTHER;
+
+        if (TweetType.METEO.equals(tweetType)) {
+            tweetType = getMeteoAlertKeywords().stream()
+                    .anyMatch(lowerCaseText::contains) ? TweetType.METEO_ALERT : tweetType;
+        }
+
         return tweetType;
     }
 
