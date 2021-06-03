@@ -31,5 +31,10 @@ public class MeteoAlertController {
         return "index";
     }
 
+    @GetMapping("/login")
+    public String getLoginView() {
+        return "login";
+    }
+
 
 }
