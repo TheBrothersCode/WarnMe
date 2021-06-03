@@ -1,16 +1,12 @@
 package com.thedariusz.warnme.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.net.HttpHeaders;
 import com.thedariusz.warnme.MeteoAlertDao;
-import com.thedariusz.warnme.MeteoAlertOrigin;
 import com.thedariusz.warnme.twitter.MeteoAlert;
-import com.thedariusz.warnme.twitter.TwitterClientConfiguration;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
@@ -18,9 +14,8 @@ import org.mockserver.model.JsonBody;
 import org.mockserver.model.MediaType;
 import org.mockserver.model.RequestDefinition;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.io.IOException;
@@ -34,18 +29,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest(controllers = MeteoAlertController.class)
-@Import(TwitterClientConfiguration.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class MeteoAlertControllerMockMvcIT extends IntegrationTestBase {
 
     static ClientAndServer mockServer;
 
     @Autowired
     MockMvc mockMvc;
-
-    @Autowired
-    ObjectMapper objectMapper;
 
     @Autowired
     MeteoAlertDao meteoAlertDao;
@@ -73,14 +64,16 @@ class MeteoAlertControllerMockMvcIT extends IntegrationTestBase {
 
 
         final List<MeteoAlert> meteoAlerts = meteoAlertDao.fetchAll();
+
         assertThat(meteoAlerts)
-                .hasSize(1)
+                .hasSize(3)
                 .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
-                        .withIgnoredFields("creationDate", "description", "media", "meteoAlertOrigin")
+                        .withIgnoredFields("creationDate", "description", "media", "meteoAlertOrigin", "externalId")
                         .build())
                 .contains(
-                        meteoAlert(0, Set.of("burze"))
-//                        meteoAlert(1, Set.of("burze", "burza", "deszcz", "grad"))
+                        meteoAlert(0, Set.of("burze")),
+                        meteoAlert(1, Set.of("burza", "deszcz", "śnieg", "burze")),
+                        meteoAlert(2, Set.of("burza"))
                 );
 
     }
@@ -107,8 +100,7 @@ class MeteoAlertControllerMockMvcIT extends IntegrationTestBase {
     }
 
     private MeteoAlert meteoAlert(int level, Set<String> categories) {
-        final MeteoAlertOrigin meteoAlertOrigin = new MeteoAlertOrigin("Twitter", "1139834822011084801", "1");
-        return new MeteoAlert(level, categories, null, null, "1139834822011084801", null);
+        return new MeteoAlert(level, categories, null, null, "1139834822011084801", null, null);
     }
 
 }

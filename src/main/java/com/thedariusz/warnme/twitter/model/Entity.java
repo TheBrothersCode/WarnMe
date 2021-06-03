@@ -16,7 +16,7 @@ public class Entity {
     }
 
     public List<Url> getUrls() {
-        return urls;
+        return urls == null ? List.of() : urls;
     }
 
     public void setUrls(List<Url> urls) {
@@ -24,7 +24,7 @@ public class Entity {
     }
 
     public List<Hashtag> getHashtags() {
-        return hashtags;
+        return hashtags == null ? List.of() : hashtags;
     }
 
     public void setHashtags(List<Hashtag> hashtags) {

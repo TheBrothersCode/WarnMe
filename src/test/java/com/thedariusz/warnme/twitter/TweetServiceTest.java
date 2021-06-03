@@ -1,28 +1,17 @@
 package com.thedariusz.warnme.twitter;
 
-import com.thedariusz.warnme.MeteoAlertCategoryMapper;
-import com.thedariusz.warnme.MeteoAlertDao;
-import com.thedariusz.warnme.MeteoAlertMapper;
-import com.thedariusz.warnme.MeteoAlertService;
-import com.thedariusz.warnme.twitter.client.FakeTwitterClient;
 import com.thedariusz.warnme.twitter.model.Entity;
 import com.thedariusz.warnme.twitter.model.Hashtag;
-import com.thedariusz.warnme.twitter.repository.InMemoryMeteoAlertDao;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class TweetServiceTest {
-    MeteoAlertDao meteoAlertDao = new InMemoryMeteoAlertDao();
-    MeteoAlertService meteoAlertService = new MeteoAlertService(meteoAlertDao);
-    TwitterClient twitterClient = new FakeTwitterClient();
-    MeteoAlertCategoryMapper meteoAlertCategoryMapper = new MeteoAlertCategoryMapper();
-    MeteoAlertMapper meteoAlertMapper = new MeteoAlertMapper(meteoAlertCategoryMapper);
-    TweetService tweetService = new TweetService(meteoAlertService, twitterClient, meteoAlertMapper);
+
+    TweetService tweetService = new TweetService(null, null, null);
 
     @Test
     void shouldReturnMeteoTweetType(){

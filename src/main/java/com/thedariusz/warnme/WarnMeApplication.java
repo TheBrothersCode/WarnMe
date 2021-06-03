@@ -8,7 +8,6 @@ import com.thedariusz.warnme.twitter.TweetService;
 import com.thedariusz.warnme.twitter.TwitterClient;
 import com.thedariusz.warnme.twitter.client.FakeTwitterClient;
 import com.thedariusz.warnme.twitter.client.SpringTwitterClient;
-import com.thedariusz.warnme.twitter.repository.InMemoryMeteoAlertDao;
 import com.thedariusz.warnme.twitter.repository.MeteoAlertSpringDao;
 import com.thedariusz.warnme.twitter.repository.PostgresMeteoAlertDao;
 import org.springframework.boot.SpringApplication;
@@ -39,12 +38,6 @@ public class WarnMeApplication {
 	}
 
 	@Bean
-	public MeteoAlertDao inMemoryMeteoAlertDao() {
-		return new InMemoryMeteoAlertDao();
-	}
-
-	@Bean
-	@Primary
 	public MeteoAlertDao postgresMeteoAlertDao(MeteoAlertSpringDao meteoAlertSpringDao) {
 		return new PostgresMeteoAlertDao(meteoAlertSpringDao);
 	}
@@ -67,7 +60,7 @@ public class WarnMeApplication {
 
 	@Bean
 	public TweetService tweetService(MeteoAlertService meteoAlertService, TwitterClient twitterClient) {
-		return new TweetService(meteoAlertService, twitterClient, new MeteoAlertMapper(new MeteoAlertCategoryMapper()));
+		return new TweetService(meteoAlertService, twitterClient, new TweetDtoMeteoAlertMapper(new MeteoAlertCategoryMapper()));
 	}
 
 }

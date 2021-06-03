@@ -2,40 +2,49 @@ package com.thedariusz.warnme.twitter.repository;
 
 import com.thedariusz.warnme.MeteoAlertDao;
 import com.thedariusz.warnme.twitter.MeteoAlert;
+import com.thedariusz.warnme.twitter.MeteoAlertEntity;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 public class PostgresMeteoAlertDao implements MeteoAlertDao {
 
-    private final MeteoAlertSpringDao dao;
+    private final MeteoAlertSpringDao repository;
+    private final MeteoAlertMapper meteoAlertMapper = new MeteoAlertMapper();
 
-    public PostgresMeteoAlertDao(MeteoAlertSpringDao dao) {
-        this.dao = dao;
+    public PostgresMeteoAlertDao(MeteoAlertSpringDao repository) {
+        this.repository = repository;
     }
 
     @Override
+    @Transactional
     public void save(MeteoAlert meteoAlert) {
-        dao.save(meteoAlert);
+        repository.save(meteoAlertMapper.toEntity(meteoAlert));
     }
 
     @Override
-    public boolean exists(MeteoAlert meteoAlert) {
-        return false;
+    @Transactional(readOnly = true)
+    public List<MeteoAlert> fetchExisting(List<String> externalIds) {
+        return repository.findByExternalIdIn(externalIds).stream()
+                .map(meteoAlertMapper::toModel)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public boolean existsByExternalId(MeteoAlert meteoAlert) {
-        return false;
-    }
-
-    @Override
+    @Transactional
     public List<MeteoAlert> fetchAll() {
-        return List.of();
+        final List<MeteoAlertEntity> entities = repository.findAll();
+        return entities.stream()
+                .map(meteoAlertMapper::toModel)
+                .collect(Collectors.toList());
+
     }
 
     @Override
     public void deleteAll() {
-        //skip this
+        repository.deleteAll();
     }
 
 }

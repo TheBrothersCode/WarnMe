@@ -1,6 +1,7 @@
 package com.thedariusz.warnme.twitter;
 
 import com.thedariusz.warnme.twitter.model.Includes;
+import com.thedariusz.warnme.twitter.model.Media;
 import com.thedariusz.warnme.twitter.model.Meta;
 
 import java.util.List;
@@ -42,6 +43,10 @@ public class TweetDtoWrapper {
 
     public void setMeta(Meta meta) {
         this.meta = meta;
+    }
+
+    public List<Media> getMedia() {
+        return includes == null ? List.of() : includes.getMedia();
     }
 }
 
