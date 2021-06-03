@@ -2,6 +2,9 @@ package com.thedariusz.warnme.api;
 
 import com.thedariusz.warnme.twitter.TweetService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +38,40 @@ public class MeteoAlertController {
 
     @GetMapping("/login")
     public String getLoginView() {
-        return "login";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            return "login";
+        }
+
+        return "redirect:/alerts";
+//        return "login";
+    }
+
+    @GetMapping("/logout")
+    public String getLogoutView() {
+        return "logout";
+    }
+
+//    @PostMapping("/login")
+//    public String getLoginForm(Authentication authentication) {
+//        System.out.println("im here");
+//        return authentication.getName();
+//    }
+
+    @PostMapping("/perform_login")
+    @ResponseBody
+    public String getAdminPage() {
+        return "Im on the admin page";
+    }
+
+    @GetMapping("/twitter")
+    public String getTwitterView() {
+        return "twitter";
+    }
+
+    @GetMapping("/error")
+    public String getErrorView() {
+        return "error";
     }
 
 

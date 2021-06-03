@@ -40,7 +40,7 @@
     <div class="main-header">
       <div class="row">
         <div class="main-header-left col-md-3 col-sm-6 col-xs-8">
-          <div>Hello my friend!</div>
+          <h3 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h3>
         </div> <!-- /.main-header-left -->
         <div class="menu-wrapper col-md-9 col-sm-6 col-xs-4">
           <a href="#" class="toggle-menu visible-sm visible-xs"><i class="fa fa-bars"></i></a>
@@ -54,6 +54,7 @@
             </li>
             <li><a href="#">Contact</a></li>
             <li><a th:href="@{/alerts/login}" >Login</a></li>
+            <li><a th:href="@{/alerts/logout}" >Logout</a></li>
           </ul>
         </div> <!-- /.menu-wrapper -->
       </div> <!-- /.row -->
