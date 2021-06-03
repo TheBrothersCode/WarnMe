@@ -66,14 +66,15 @@ class MeteoAlertControllerMockMvcIT extends IntegrationTestBase {
         final List<MeteoAlert> meteoAlerts = meteoAlertDao.fetchAll();
 
         assertThat(meteoAlerts)
-                .hasSize(3)
+                .hasSize(4)
                 .usingRecursiveFieldByFieldElementComparator(RecursiveComparisonConfiguration.builder()
                         .withIgnoredFields("creationDate", "description", "media", "meteoAlertOrigin", "externalId")
                         .build())
                 .contains(
                         meteoAlert(0, Set.of("burze")),
                         meteoAlert(1, Set.of("burza", "deszcz", "śnieg", "burze")),
-                        meteoAlert(2, Set.of("burza"))
+                        meteoAlert(2, Set.of("burza")),
+                        meteoAlert(0, Set.of("upał"))
                 );
 
     }
