@@ -53,8 +53,12 @@
               </ul>
             </li>
             <li><a href="#">Contact</a></li>
-            <li><a th:href="@{/alerts/login}" >Login</a></li>
-            <li><a th:href="@{/alerts/logout}" >Logout</a></li>
+            <li><a th:href="@{/alerts/login}">Login</a>
+              <ul>
+                <li><a th:href="@{/alerts/register}">Register</a></li>
+                <li><a th:href="@{/alerts/logout}">Logout</a></li>
+              </ul>
+            </li>
           </ul>
         </div> <!-- /.menu-wrapper -->
       </div> <!-- /.row -->

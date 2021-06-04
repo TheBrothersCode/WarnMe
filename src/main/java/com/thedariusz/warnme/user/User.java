@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
@@ -17,10 +19,16 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Size(min = 5, max = 30)
     @Column(nullable = false, unique = true)
     private String username;
+
+    @Min(8)
     private String password;
+
     private int enabled;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name="role_id"))
     private Set<Role> roles;
@@ -74,5 +82,23 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public static User toUser(UserDto userDto) {
+        User user = new User();
+        user.setUsername(userDto.getUsername());
+        user.setPassword(userDto.getPassword());
+        user.setEnabled(userDto.getEnabled());
+        user.setRoles(userDto.getRoles());
+        return user;
+    }
+
+    public static UserDto toUserDto(User user) {
+        UserDto userDto = new UserDto();
+        userDto.setUsername(user.getUsername());
+        userDto.setPassword(user.getPassword());
+        userDto.setEnabled(user.getEnabled());
+        userDto.setRoles(user.getRoles());
+        return userDto;
     }
 }
