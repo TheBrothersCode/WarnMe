@@ -35,7 +35,7 @@ public class SecuredControllerWebMvcIntegrationTest {
                 .build();
     }
 
-    @WithMockUser("user")
+    @WithMockUser("admin")
     @Test
     public void givenAuthRequestOnPrivateService_shouldSucceedWith200() throws Exception {
         mockMvc.perform(get("/alerts/twitter")
