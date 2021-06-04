@@ -1,10 +1,7 @@
 package com.thedariusz.warnme.api;
 
-import com.thedariusz.warnme.twitter.TweetService;
-import com.thedariusz.warnme.user.User;
 import com.thedariusz.warnme.user.UserDto;
 import com.thedariusz.warnme.user.UserService;
-import com.thedariusz.warnme.user.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,34 +10,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-//@RestController
 @Controller
 @RequestMapping(value = "/alerts")
-public class MeteoAlertController {
+public class MeteoAlertViewsController {
 
-    private final TweetService tweetService;
-    private final UserDao dao;
     private final UserService userService;
 
     @Autowired
-    public MeteoAlertController(TweetService tweetService, UserDao dao, UserService userService) {
-        this.tweetService = tweetService;
-        this.dao = dao;
+    public MeteoAlertViewsController(UserService userService) {
         this.userService = userService;
-    }
-
-    @PostMapping("/{id}")
-    @ResponseBody
-    public void fetchAllAlerts(@PathVariable("id") String twitterUserId) {
-        tweetService.syncTweets(twitterUserId);
     }
 
     @GetMapping
@@ -73,12 +56,6 @@ public class MeteoAlertController {
         return "error";
     }
 
-//    @GetMapping("/register")
-//    public String getRegisterView(Model model) {
-//        User user = new User();
-//        model.addAttribute("user", user);
-//        return "register";
-//    }
 
     @GetMapping("/register")
     public String getRegisterView(Model model) {
@@ -108,44 +85,6 @@ public class MeteoAlertController {
             userService.saveUser(userDto);
             return "login";
         }
-    }
-
-//    @PostMapping("/register")
-//    public String getRegisterForm(@Valid User user, BindingResult bindingResult, Model model) {
-//        User existUser = dao.findByUserName(user.getUsername());
-//        if (existUser!=null) {
-//            bindingResult.rejectValue("username", "error.user",
-//                    "There is already a user registered with the username provided");
-//        }
-//
-//        if (user.getUsername()==null || user.getUsername().isBlank()) {
-//            bindingResult.rejectValue("username", "error.user",
-//                    "Username cant be empty!");
-//        }
-//
-//        if (user.getPassword()==null || user.getPassword().isBlank()) {
-//            bindingResult.rejectValue("password", "error.password",
-//                    "Password cant be empty!");
-//        }
-//
-//
-//        if (bindingResult.hasErrors()) {
-//            return "/register";
-//        } else {
-//            dao.saveUser(user);
-//            model.addAttribute("user", new User());
-//            return "/login";
-//        }
-//    }
-
-    @GetMapping("/create-user")
-    @ResponseBody
-    public String createUser() {
-        User user = new User();
-        user.setUsername("admin");
-        user.setPassword("admin");
-        dao.saveUser(user);
-        return "admin";
     }
 
 }

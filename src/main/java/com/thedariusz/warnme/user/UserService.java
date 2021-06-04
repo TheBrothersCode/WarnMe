@@ -12,14 +12,6 @@ public class UserService {
         this.dao = dao;
     }
 
-    public boolean userExists(UserDto userDto) {
-        User existUser = dao.findByUserName(
-                User.toUser(userDto)
-                        .getUsername()
-        );
-        return existUser!=null;
-    }
-
     public String validateUsername(UserDto userDto) {
         String message = "";
 

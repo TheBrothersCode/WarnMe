@@ -22,7 +22,7 @@ public class TweetService {
         OTHER
     }
     private static final Logger logger = LoggerFactory.getLogger(TweetService.class);
-    static final Map<TweetType, Set<String>> TWEET_TYPE_TO_KEYWORDS = Map.of(
+    private static final Map<TweetType, Set<String>> TWEET_TYPE_TO_KEYWORDS = Map.of(
             TweetType.METEO, Set.of("meteo", "weather", "pogoda", "burze", "burza",
                     "upał", "mróz", "meteoimgw", "przymrozki", "temperatura", "hydro",
                     "deszcz", "wichura", "grad", "ulewa",
@@ -55,55 +55,6 @@ public class TweetService {
 
         meteoAlertService.save(meteoAlerts);
     }
-
-//    boolean isMeteoAlert(TweetDto tweetDto) {
-//        TweetType tweetTypeFromTags = getTweetTypeBasedOnHashTags(tweetDto.getHashtagsFromTweet());
-//        TweetType tweetTypeFromText = getTweetTypeBasedOnTweetText(tweetDto.getText());
-//
-//        return tweetTypeFromTags.equals(TweetType.METEO_ALERT) ||
-//                tweetTypeFromText.equals(TweetType.METEO_ALERT);
-//    }
-//
-//    TweetType getTweetTypeBasedOnHashTags(List<Hashtag> hashTags) {
-//        if (isEmpty(hashTags)) {
-//            return TweetType.OTHER;
-//        }
-//
-//        TweetType tweetType = hashTags
-//                .stream()
-//                .map(Hashtag::getTag)
-//                .map(String::toLowerCase)
-//                .anyMatch(getMeteoKeywords()::contains) ? TweetType.METEO : TweetType.OTHER;
-//
-//        boolean hasMeteoAlertKeywords = hashTags
-//                .stream()
-//                .map(Hashtag::getTag)
-//                .map(String::toLowerCase)
-//                .anyMatch(getMeteoAlertKeywords()::contains);
-//
-//        if (tweetType.equals(TweetType.METEO) && hasMeteoAlertKeywords) {
-//            tweetType = TweetType.METEO_ALERT;
-//        }
-//        return tweetType;
-//    }
-//
-//    private TweetType getTweetTypeBasedOnTweetText(String text) {
-//        if (text.isBlank()) {
-//            return TweetType.OTHER;
-//        }
-//
-//        String lowerCaseText = text.toLowerCase();
-//
-//        TweetType tweetType = getMeteoKeywords().stream()
-//                .anyMatch(lowerCaseText::contains) ? TweetType.METEO:TweetType.OTHER;
-//
-//        if (TweetType.METEO.equals(tweetType)) {
-//            tweetType = getMeteoAlertKeywords().stream()
-//                    .anyMatch(lowerCaseText::contains) ? TweetType.METEO_ALERT : tweetType;
-//        }
-//
-//        return tweetType;
-//    }
 
     boolean isMeteoAlert(TweetDto tweetDto) {
         TweetType tweetType = TweetType.OTHER;
