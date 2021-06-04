@@ -1,5 +1,7 @@
 package com.thedariusz.warnme;
 
+import com.thedariusz.warnme.user.SpringDataUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,37 +14,58 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/", "/alerts", "/css/**", "/js/**", "/images/**").permitAll()
-                    .antMatchers("/alerts/twitter").authenticated()
-                    .anyRequest().authenticated()
-                    .and()
+                .antMatchers("/", "/alerts", "/css/**", "/js/**", "/images/**", "/alerts/create-user").permitAll()
+                .antMatchers("/alerts/twitter").authenticated()
+                .anyRequest().authenticated()
+                .and()
                 .formLogin()
-                    .loginPage("/alerts/login").permitAll()
-                    .defaultSuccessUrl("/alerts/twitter", true)
+                .loginPage("/alerts/login").permitAll()
                 .defaultSuccessUrl("/alerts/twitter", true)
                 .and()
-                 .logout()
+                .logout()
                 .logoutUrl("/alerts/logout")
                 .logoutSuccessUrl("/alerts")
-                  .permitAll();
+                .permitAll();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("user")
-                .password(passwordEncoder().encode("password"))
-                .roles("USER");
+        auth
+                .userDetailsService(customUserDetailsService())
+                .passwordEncoder(passwordEncoder());
     }
 
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.inMemoryAuthentication()
+//                .withUser("user")
+//                .password(passwordEncoder().encode("password"))
+//                .roles("USER")
+//                .and()
+//                .withUser("admin")
+//                .password(passwordEncoder().encode("password"))
+//                .roles("ADMIN");
+//    }
+
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public SpringDataUserDetailsService customUserDetailsService() {
+        return new SpringDataUserDetailsService();
+    }
 }

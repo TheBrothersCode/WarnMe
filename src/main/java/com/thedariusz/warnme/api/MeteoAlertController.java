@@ -1,6 +1,8 @@
 package com.thedariusz.warnme.api;
 
 import com.thedariusz.warnme.twitter.TweetService;
+import com.thedariusz.warnme.user.User;
+import com.thedariusz.warnme.user.repository.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,10 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class MeteoAlertController {
 
     private final TweetService tweetService;
+    private final UserDao dao;
 
     @Autowired
-    public MeteoAlertController(TweetService tweetService) {
+    public MeteoAlertController(TweetService tweetService, UserDao dao) {
         this.tweetService = tweetService;
+        this.dao = dao;
     }
 
     @PostMapping("/{id}")
@@ -44,7 +48,6 @@ public class MeteoAlertController {
         }
 
         return "redirect:/alerts";
-//        return "login";
     }
 
     @GetMapping("/logout")
@@ -52,11 +55,6 @@ public class MeteoAlertController {
         return "logout";
     }
 
-//    @PostMapping("/login")
-//    public String getLoginForm(Authentication authentication) {
-//        System.out.println("im here");
-//        return authentication.getName();
-//    }
 
     @PostMapping("/perform_login")
     @ResponseBody
@@ -74,5 +72,14 @@ public class MeteoAlertController {
         return "error";
     }
 
+    @GetMapping("/create-user")
+    @ResponseBody
+    public String createUser() {
+        User user = new User();
+        user.setUsername("admin");
+        user.setPassword("admin");
+        dao.saveUser(user);
+        return "admin";
+    }
 
 }
