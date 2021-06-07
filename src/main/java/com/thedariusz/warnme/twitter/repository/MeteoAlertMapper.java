@@ -1,5 +1,7 @@
 package com.thedariusz.warnme.twitter.repository;
 
+import com.thedariusz.warnme.MeteoAlertCategory;
+import com.thedariusz.warnme.MeteoAlertCategoryEntity;
 import com.thedariusz.warnme.twitter.MeteoAlert;
 import com.thedariusz.warnme.twitter.MeteoAlertEntity;
 
@@ -11,17 +13,17 @@ import java.util.stream.Collectors;
 public class MeteoAlertMapper {
 
     private final MeteoAlertOriginMapper meteoAlertOriginMapper = new MeteoAlertOriginMapper();
+    private final MeteoAlertCategoryMapper meteoAlertCategoryMapper = new MeteoAlertCategoryMapper();
 
     public MeteoAlert toModel(MeteoAlertEntity entity) {
-        Set<String> categories = Arrays.stream(entity.getCategories().split(","))
-                .collect(Collectors.toSet());
-
         List<String> media = Arrays.stream(entity.getMedia().split(","))
                 .collect(Collectors.toList());
 
+        final Set<MeteoAlertCategoryEntity> entityCategories = entity.getCategories();
+
         return new MeteoAlert(
                 entity.getLevel(),
-                categories,
+                meteoAlertCategoryMapper.toModel(entityCategories),
                 entity.getCreationDate(),
                 entity.getDescription(),
                 entity.getExternalId(),
@@ -36,7 +38,7 @@ public class MeteoAlertMapper {
 
         return new MeteoAlertEntity(
                 model.getLevel(),
-                String.join(",", categories),
+                meteoAlertCategoryMapper.toEntity(categories),
                 model.getCreationDate(),
                 model.getDescription(),
                 model.getExternalId(),

@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class MeteoAlertCategoryMapper {
+public class MeteoAlertCategoryAssigment {
 
     private static final Set<String> METEO_ALERTS_CATEGORIES =
             Set.of("burze", "burza", "upał", "mróz", "przymrozki", "hydro", "deszcz", "wichura", "grad", "ulewa", "śnieg",

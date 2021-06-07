@@ -60,7 +60,7 @@ public class WarnMeApplication {
 
 	@Bean
 	public TweetService tweetService(MeteoAlertService meteoAlertService, TwitterClient twitterClient) {
-		return new TweetService(meteoAlertService, twitterClient, new TweetDtoMeteoAlertMapper(new MeteoAlertCategoryMapper()));
+		return new TweetService(meteoAlertService, twitterClient, new TweetDtoMeteoAlertMapper(new MeteoAlertCategoryAssigment()));
 	}
 
 }

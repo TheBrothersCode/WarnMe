@@ -1,5 +1,6 @@
 package com.thedariusz.warnme.twitter;
 
+import com.thedariusz.warnme.MeteoAlertCategoryEntity;
 import com.thedariusz.warnme.MeteoAlertOriginEntity;
 
 import javax.persistence.CascadeType;
@@ -8,7 +9,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import java.util.Set;
 
 @Entity(name = "meteo_alert")
 public class MeteoAlertEntity {
@@ -19,7 +23,11 @@ public class MeteoAlertEntity {
 
     private int level;
 
-    private String categories;
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "meteoalert_meteoalertcategory",
+            joinColumns = @JoinColumn(name="alert_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<MeteoAlertCategoryEntity> categories;
 
     private String creationDate;
 
@@ -36,7 +44,7 @@ public class MeteoAlertEntity {
     public MeteoAlertEntity() {
     }
 
-    public MeteoAlertEntity(int level, String categories, String creationDate, String description, String externalId, String media, MeteoAlertOriginEntity meteoAlertOriginEntity) {
+    public MeteoAlertEntity(int level, Set<MeteoAlertCategoryEntity> categories, String creationDate, String description, String externalId, String media, MeteoAlertOriginEntity meteoAlertOriginEntity) {
         this.level = level;
         this.categories = categories;
         this.creationDate = creationDate;
@@ -86,11 +94,11 @@ public class MeteoAlertEntity {
         this.description = description;
     }
 
-    public String getCategories() {
+    public Set<MeteoAlertCategoryEntity> getCategories() {
         return categories;
     }
 
-    public void setCategories(String categories) {
+    public void setCategories(Set<MeteoAlertCategoryEntity> categories) {
         this.categories = categories;
     }
 
