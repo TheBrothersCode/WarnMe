@@ -14,9 +14,27 @@ public class MeteoAlertService {
     }
 
     public void save(List<MeteoAlert> meteoAlerts) {
-        List<MeteoAlert> existing = meteoAlertDao.fetchExisting(meteoAlerts.stream().map(MeteoAlert::getExternalId).collect(Collectors.toList()));
+        final List<String> newIds = meteoAlerts.stream().
+                map(MeteoAlert::getExternalId)
+                .collect(Collectors.toList());
+
+        List<MeteoAlert> existing = meteoAlertDao.fetchExisting(newIds);
+
         meteoAlerts.stream()
-//                .filter(meteoAlert -> !meteoAlertDao.existsByExternalId(meteoAlert))
+                .filter(meteoAlert -> externalIdEquals(existing, meteoAlert))
                 .forEach(meteoAlertDao::save);
+    }
+
+    public List<MeteoAlert> getMeteoAlertsFromDb() {
+        return meteoAlertDao.fetchAll();
+    }
+
+    private boolean externalIdEquals(List<MeteoAlert> existing, MeteoAlert meteoAlert) {
+        for(MeteoAlert alert : existing) {
+            if (alert.getExternalId().equals(meteoAlert.getExternalId())) {
+                return false;
+            }
+        }
+        return true;
     }
 }
