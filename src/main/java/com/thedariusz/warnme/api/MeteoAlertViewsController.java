@@ -24,6 +24,13 @@ import java.util.List;
 @RequestMapping(value = "/alerts")
 public class MeteoAlertViewsController {
 
+    private static final String HOME_VIEW = "index";
+    private static final String LOGIN_VIEW = "login";
+    private static final String LOGOUT_VIEW = "logout";
+    private static final String TWITTER_VIEW = "twitter";
+    private static final String ERROR_VIEW = "error";
+    private static final String REGISTER_VIEW = "register";
+
     private final UserService userService;
     private final TweetService tweetService;
     private final MeteoAlertService meteoAlertService;
@@ -43,14 +50,14 @@ public class MeteoAlertViewsController {
 
         model.addAttribute("posts", posts);
         model.addAttribute("refreshDate", refreshDate);
-        return "index";
+        return HOME_VIEW;
     }
 
     @GetMapping("/login")
     public String getLoginView() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
-            return "login";
+            return LOGIN_VIEW;
         }
 
         return "redirect:/alerts";
@@ -58,39 +65,39 @@ public class MeteoAlertViewsController {
 
     @GetMapping("/logout")
     public String getLogoutView() {
-        return "logout";
+        return LOGOUT_VIEW;
     }
 
     @GetMapping("/twitter")
     public String getTwitterView() {
-        return "twitter";
+        return TWITTER_VIEW;
     }
 
     @GetMapping("/error")
     public String getErrorView() {
-        return "error";
+        return ERROR_VIEW;
     }
 
 
     @GetMapping("/register")
     public String getRegisterView(Model model) {
-        UserDto userDto = new UserDto();
-        model.addAttribute("userDto", userDto);
-        return "register";
+        model.addAttribute("userDto", new UserDto());
+        return REGISTER_VIEW;
     }
+
     @PostMapping("/register")
-    public String getRegisterForm(@Valid UserDto userDto, BindingResult bindingResult, Model model) {
+    public String getRegisterForm(@Valid UserDto userDto, BindingResult bindingResult) {
         if (userService.existUser(userDto)) {
             bindingResult.rejectValue("username", "error.user",
                     "User '"+userDto.getUsername()+"' is already register");
-            return "register";
+            return REGISTER_VIEW;
         }
 
         if (bindingResult.hasErrors()) {
-            return "register";
+            return REGISTER_VIEW;
         } else {
             userService.saveUser(userDto);
-            return "login";
+            return LOGIN_VIEW;
         }
     }
 
