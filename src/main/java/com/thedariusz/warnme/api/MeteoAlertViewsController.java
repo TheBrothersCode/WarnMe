@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
-import java.time.OffsetDateTime;
 import java.util.List;
 
 @Controller
@@ -81,17 +80,9 @@ public class MeteoAlertViewsController {
     }
     @PostMapping("/register")
     public String getRegisterForm(@Valid UserDto userDto, BindingResult bindingResult, Model model) {
-        String message = userService.validateUsername(userDto); //todo change to pro validation
-        if (!message.isBlank()) {
+        if (userService.existUser(userDto)) {
             bindingResult.rejectValue("username", "error.user",
-                    message);
-            return "register";
-        }
-
-        message = userService.validatePassword(userDto); //todo change to pro validation
-        if (!message.isBlank()) {
-            bindingResult.rejectValue("password", "error.password",
-                    message);
+                    "User '"+userDto.getUsername()+"' is already register");
             return "register";
         }
 
