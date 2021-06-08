@@ -2,7 +2,7 @@ package com.thedariusz.warnme.api;
 
 import com.google.common.net.HttpHeaders;
 import com.thedariusz.warnme.MeteoAlertDao;
-import com.thedariusz.warnme.twitter.MeteoAlert;
+import com.thedariusz.warnme.MeteoAlert;
 import org.assertj.core.api.recursive.comparison.RecursiveComparisonConfiguration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

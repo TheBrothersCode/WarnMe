@@ -1,6 +1,6 @@
 package com.thedariusz.warnme.user;
 
-import com.thedariusz.warnme.user.repository.UserDao;
+import com.thedariusz.warnme.user.repository.entity.UserEntity;
 
 public class UserService {
 
@@ -11,14 +11,10 @@ public class UserService {
     }
 
     public boolean existUser(UserDto userDto) {
-        User user = dao.findByUserName(
-                User.toUser(userDto)
-                        .getUsername()
-        );
-        return user!=null;
+        return dao.findByUserName(userDto.getUsername()).isPresent();
     }
 
     public void saveUser(UserDto userDto) {
-        dao.saveUser(User.toUser(userDto));
+        dao.saveUser(UserEntity.toEntity(userDto));
     }
 }

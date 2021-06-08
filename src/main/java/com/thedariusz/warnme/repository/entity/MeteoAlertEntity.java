@@ -1,7 +1,4 @@
-package com.thedariusz.warnme.twitter;
-
-import com.thedariusz.warnme.MeteoAlertCategoryEntity;
-import com.thedariusz.warnme.MeteoAlertOriginEntity;
+package com.thedariusz.warnme.repository.entity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

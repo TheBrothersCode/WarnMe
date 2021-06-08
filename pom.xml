@@ -126,7 +126,7 @@
                 <version>7.3.2</version>
                 <configuration>
                     <url>jdbc:postgresql://localhost:5432/warn_me</url>
-                    <user>postgres</user>
+                    <userEntity>postgres</userEntity>
                     <password>password</password>
                     <schemas>
                         <schema>warnme</schema>

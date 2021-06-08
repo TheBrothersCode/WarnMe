@@ -1,7 +1,7 @@
 package com.thedariusz.warnme.api;
 
 import com.thedariusz.warnme.MeteoAlertService;
-import com.thedariusz.warnme.twitter.MeteoAlert;
+import com.thedariusz.warnme.MeteoAlert;
 import com.thedariusz.warnme.twitter.TweetService;
 import com.thedariusz.warnme.user.UserDto;
 import com.thedariusz.warnme.user.UserService;

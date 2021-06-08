@@ -1,10 +1,10 @@
 package com.thedariusz.warnme;
 
-import com.thedariusz.warnme.user.SpringDataUserDetailsService;
+import com.thedariusz.warnme.user.UserDetailsSecurityService;
 import com.thedariusz.warnme.user.UserService;
-import com.thedariusz.warnme.user.repository.PostgresUserRepositoryDao;
-import com.thedariusz.warnme.user.repository.RoleRepositoryDao;
-import com.thedariusz.warnme.user.repository.UserDao;
+import com.thedariusz.warnme.user.repository.UserRepository;
+import com.thedariusz.warnme.user.repository.RoleJpaRepository;
+import com.thedariusz.warnme.user.UserDao;
 import com.thedariusz.warnme.user.repository.UserJpaRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -51,13 +51,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public SpringDataUserDetailsService customUserDetailsService() {
-        return new SpringDataUserDetailsService();
+    public UserDetailsSecurityService customUserDetailsService() {
+        return new UserDetailsSecurityService();
     }
 
     @Bean
-    public UserDao userDao(UserJpaRepository userJpaRepository, RoleRepositoryDao roleDao, BCryptPasswordEncoder passwordEncoder) {
-        return new PostgresUserRepositoryDao(userJpaRepository, roleDao, passwordEncoder);
+    public UserDao userDao(UserJpaRepository userJpaRepository, RoleJpaRepository roleDao, BCryptPasswordEncoder passwordEncoder) {
+        return new UserRepository(userJpaRepository, roleDao, passwordEncoder);
     }
 
     @Bean

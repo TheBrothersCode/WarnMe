@@ -1,6 +1,6 @@
-package com.thedariusz.warnme.twitter.repository;
+package com.thedariusz.warnme.repository;
 
-import com.thedariusz.warnme.twitter.MeteoAlertEntity;
+import com.thedariusz.warnme.repository.entity.MeteoAlertEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface MeteoAlertSpringDao extends JpaRepository<MeteoAlertEntity, Long> {
+public interface MeteoAlertJpaRepository extends JpaRepository<MeteoAlertEntity, Long> {
 
     List<MeteoAlertEntity> findByExternalIdIn(List<String> externalIds);
     List<MeteoAlertEntity> findByOrderByCreationDateDesc();

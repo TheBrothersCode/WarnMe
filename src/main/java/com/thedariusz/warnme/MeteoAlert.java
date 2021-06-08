@@ -1,6 +1,4 @@
-package com.thedariusz.warnme.twitter;
-
-import com.thedariusz.warnme.MeteoAlertOrigin;
+package com.thedariusz.warnme;
 
 import java.util.List;
 import java.util.Set;

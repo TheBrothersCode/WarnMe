@@ -1,7 +1,5 @@
 package com.thedariusz.warnme;
 
-import com.thedariusz.warnme.twitter.MeteoAlert;
-
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
