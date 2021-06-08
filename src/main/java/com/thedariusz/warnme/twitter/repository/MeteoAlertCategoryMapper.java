@@ -15,7 +15,7 @@ public class MeteoAlertCategoryMapper {
 
     public Set<MeteoAlertCategoryEntity> toEntity(Set<String> categories) {
         return categories.stream()
-                .map(MeteoAlertCategoryEntity::new)
+                .map(name -> new MeteoAlertCategoryEntity(name))
                 .collect(Collectors.toSet());
     }
 }

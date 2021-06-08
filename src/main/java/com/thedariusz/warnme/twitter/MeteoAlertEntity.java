@@ -4,7 +4,9 @@ import com.thedariusz.warnme.MeteoAlertCategoryEntity;
 import com.thedariusz.warnme.MeteoAlertOriginEntity;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity(name = "meteo_alert")
@@ -23,7 +26,7 @@ public class MeteoAlertEntity {
 
     private int level;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "meteoalert_meteoalertcategory",
             joinColumns = @JoinColumn(name="alert_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
@@ -31,6 +34,7 @@ public class MeteoAlertEntity {
 
     private String creationDate;
 
+    @Column(length = 999)
     private String description;
 
     private String externalId;
@@ -116,5 +120,20 @@ public class MeteoAlertEntity {
 
     public void setMeteoAlertOriginEntity(MeteoAlertOriginEntity meteoAlertOriginEntity) {
         this.meteoAlertOriginEntity = meteoAlertOriginEntity;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this==o) return true;
+        if (!(o instanceof MeteoAlertEntity)) return false;
+
+        MeteoAlertEntity that = (MeteoAlertEntity) o;
+
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id!=null ? id.hashCode():0;
     }
 }
