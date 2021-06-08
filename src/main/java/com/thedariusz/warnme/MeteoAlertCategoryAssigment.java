@@ -15,9 +15,6 @@ public class MeteoAlertCategoryAssigment {
                     "oblodzenie", "opady marznące", "opady śniegu", "roztopy", "silny deszcze z burzami",
                     "gęsta mgła", "silny mróz", "silny wiatr", "zawieje", "zamiecie śnieżne");
 
-    private static final Map<String, Set<String>> METEO_ALERTS_CATEGORIES_MAP = Map.of (
-            "burza", Set.of("burz"), "upał", Set.of("upal", "upał")
-    );
 
     public Set<String> getCategories(List<Hashtag> hashTags) {
 
@@ -36,14 +33,5 @@ public class MeteoAlertCategoryAssigment {
                 .filter(text::contains)
                 .collect(Collectors.toSet());
     }
-
-//    public Set<String> getCategoriesFromTextUseMap(String text) {
-//        text = text.toLowerCase();
-//        METEO_ALERTS_CATEGORIES_MAP.forEach(
-//                (k, v) -> {
-//                    v.stream().anyMatch(keyword -> text.contains(keyword))
-//                }
-//        );
-//    }
 
 }
