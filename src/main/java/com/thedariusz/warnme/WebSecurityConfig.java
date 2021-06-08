@@ -1,6 +1,11 @@
 package com.thedariusz.warnme;
 
 import com.thedariusz.warnme.user.SpringDataUserDetailsService;
+import com.thedariusz.warnme.user.UserService;
+import com.thedariusz.warnme.user.repository.PostgresUserRepositoryDao;
+import com.thedariusz.warnme.user.repository.RoleRepositoryDao;
+import com.thedariusz.warnme.user.repository.UserDao;
+import com.thedariusz.warnme.user.repository.UserJpaRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,7 +17,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -49,5 +53,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public SpringDataUserDetailsService customUserDetailsService() {
         return new SpringDataUserDetailsService();
+    }
+
+    @Bean
+    public UserDao userDao(UserJpaRepository userJpaRepository, RoleRepositoryDao roleDao, BCryptPasswordEncoder passwordEncoder) {
+        return new PostgresUserRepositoryDao(userJpaRepository, roleDao, passwordEncoder);
+    }
+
+    @Bean
+    public UserService userService(UserDao userDao) {
+        return new UserService(userDao);
     }
 }

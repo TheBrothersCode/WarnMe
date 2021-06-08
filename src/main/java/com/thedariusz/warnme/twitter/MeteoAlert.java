@@ -45,7 +45,6 @@ public class MeteoAlert {
         return categories;
     }
 
-
     public String getExternalId() {
         return externalId;
     }

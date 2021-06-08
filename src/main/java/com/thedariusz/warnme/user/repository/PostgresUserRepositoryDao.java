@@ -3,19 +3,17 @@ package com.thedariusz.warnme.user.repository;
 import com.thedariusz.warnme.user.Role;
 import com.thedariusz.warnme.user.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.HashSet;
 
-@Service
 public class PostgresUserRepositoryDao implements UserDao {
 
-    private final UserRepositoryDao userDao;
+    private final UserJpaRepository userDao;
     private final RoleRepositoryDao roleDao;
     private final BCryptPasswordEncoder encoder;
 
-    public PostgresUserRepositoryDao(UserRepositoryDao userDao, RoleRepositoryDao roleDao, BCryptPasswordEncoder encoder) {
+    public PostgresUserRepositoryDao(UserJpaRepository userDao, RoleRepositoryDao roleDao, BCryptPasswordEncoder encoder) {
         this.userDao = userDao;
         this.roleDao = roleDao;
         this.encoder = encoder;

@@ -2,13 +2,14 @@ package com.thedariusz.warnme;
 
 import com.thedariusz.warnme.twitter.MeteoAlert;
 
-import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class MeteoAlertService {
+
+    private static final String EMPTY_STRING = "";
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private final MeteoAlertDao meteoAlertDao;
 
@@ -42,7 +43,8 @@ public class MeteoAlertService {
     }
 
     public String getRefreshDate() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM);
-        return formatter.format(meteoAlertDao.getLatestRecordDateTime());
+        return meteoAlertDao.getLatestCreatedAt()
+                .map(DATE_TIME_FORMATTER::format)
+                .orElse(EMPTY_STRING);
     }
 }

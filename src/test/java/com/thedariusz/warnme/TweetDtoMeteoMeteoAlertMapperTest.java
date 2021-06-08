@@ -1,9 +1,9 @@
 package com.thedariusz.warnme;
 
-import com.thedariusz.warnme.twitter.model.Entity;
-import com.thedariusz.warnme.twitter.model.Hashtag;
 import com.thedariusz.warnme.twitter.MeteoAlert;
 import com.thedariusz.warnme.twitter.TweetDto;
+import com.thedariusz.warnme.twitter.model.Entity;
+import com.thedariusz.warnme.twitter.model.Hashtag;
 import com.thedariusz.warnme.twitter.model.Media;
 import org.junit.jupiter.api.Test;
 

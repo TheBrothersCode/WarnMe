@@ -1,6 +1,7 @@
 package com.thedariusz.warnme;
 
 public class MeteoAlertCategory {
+
     private String name;
 
     public MeteoAlertCategory( String name) {

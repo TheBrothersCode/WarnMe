@@ -1,6 +1,5 @@
 package com.thedariusz.warnme.twitter.repository;
 
-import com.thedariusz.warnme.MeteoAlertCategory;
 import com.thedariusz.warnme.MeteoAlertCategoryEntity;
 import com.thedariusz.warnme.twitter.MeteoAlert;
 import com.thedariusz.warnme.twitter.MeteoAlertEntity;
@@ -29,8 +28,7 @@ public class MeteoAlertMapper {
                 entity.getDescription(),
                 entity.getExternalId(),
                 media,
-                meteoAlertOriginMapper.toModel(entity.getMeteoAlertOriginEntity())
-        );
+                meteoAlertOriginMapper.toModel(entity.getMeteoAlertOriginEntity()));
     }
 
     public MeteoAlertEntity toEntity(MeteoAlert model) {

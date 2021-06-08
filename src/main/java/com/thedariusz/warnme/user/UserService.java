@@ -1,9 +1,7 @@
 package com.thedariusz.warnme.user;
 
 import com.thedariusz.warnme.user.repository.UserDao;
-import org.springframework.stereotype.Service;
 
-@Service
 public class UserService {
 
     private final UserDao dao;

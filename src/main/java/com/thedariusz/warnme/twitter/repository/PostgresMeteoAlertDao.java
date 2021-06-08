@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -44,8 +45,9 @@ public class PostgresMeteoAlertDao implements MeteoAlertDao {
     }
 
     @Override
-    public OffsetDateTime getLatestRecordDateTime() {
-        return repository.findFirstByOrderByRecordCreatedDateDesc().getRecordCreatedDate();
+    public Optional<OffsetDateTime> getLatestCreatedAt() {
+        return repository.findFirstByOrderByCreatedAtDesc()
+                .map(MeteoAlertEntity::getCreatedAt);
     }
 
     @Override
