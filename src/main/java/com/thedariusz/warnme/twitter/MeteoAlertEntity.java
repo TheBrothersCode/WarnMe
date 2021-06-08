@@ -12,8 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.Set;
 
@@ -26,7 +27,7 @@ public class MeteoAlertEntity {
 
     private int level;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JoinTable(name = "meteoalert_meteoalertcategory",
             joinColumns = @JoinColumn(name="alert_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
@@ -45,10 +46,15 @@ public class MeteoAlertEntity {
     @JoinColumn(name = "alert_origin_id", referencedColumnName = "id")
     private MeteoAlertOriginEntity meteoAlertOriginEntity;
 
+    @Column(name = "created_date")
+    private OffsetDateTime recordCreatedDate;
+
     public MeteoAlertEntity() {
     }
 
-    public MeteoAlertEntity(int level, Set<MeteoAlertCategoryEntity> categories, String creationDate, String description, String externalId, String media, MeteoAlertOriginEntity meteoAlertOriginEntity) {
+    public MeteoAlertEntity(int level, Set<MeteoAlertCategoryEntity> categories,
+                            String creationDate, String description, String externalId, String media,
+                            MeteoAlertOriginEntity meteoAlertOriginEntity, OffsetDateTime recordCreatedDate) {
         this.level = level;
         this.categories = categories;
         this.creationDate = creationDate;
@@ -56,6 +62,15 @@ public class MeteoAlertEntity {
         this.externalId = externalId;
         this.media = media;
         this.meteoAlertOriginEntity = meteoAlertOriginEntity;
+        this.recordCreatedDate = recordCreatedDate;
+    }
+
+    public OffsetDateTime getRecordCreatedDate() {
+        return recordCreatedDate;
+    }
+
+    public void setRecordCreatedDate(OffsetDateTime createdDate) {
+        this.recordCreatedDate = createdDate;
     }
 
     public Long getId() {

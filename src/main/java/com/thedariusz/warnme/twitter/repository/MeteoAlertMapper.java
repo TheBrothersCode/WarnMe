@@ -5,6 +5,7 @@ import com.thedariusz.warnme.MeteoAlertCategoryEntity;
 import com.thedariusz.warnme.twitter.MeteoAlert;
 import com.thedariusz.warnme.twitter.MeteoAlertEntity;
 
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -43,7 +44,8 @@ public class MeteoAlertMapper {
                 model.getDescription(),
                 model.getExternalId(),
                 String.join(",", media),
-                meteoAlertOriginMapper.toEntity(model.getMeteoAlertOrigin())
+                meteoAlertOriginMapper.toEntity(model.getMeteoAlertOrigin()),
+                OffsetDateTime.now()
         );
     }
 
