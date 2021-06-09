@@ -9,7 +9,7 @@ import java.util.Set;
 public class UserDto {
 
     @NotEmpty(message = "Please enter a user name")
-    @Size(min = 8, message = "Name couldn't be empty and should have at least 8 letters")
+    @Size(min = 4, message = "Name couldn't be empty and should have at least 4 letters")
     private String username;
 
     @Size(min = 8, message = "Password couldn't be empty and should have at least 8 letters")
