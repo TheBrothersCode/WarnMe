@@ -1,7 +1,7 @@
 ## Twitter Alerts Feature
 
 ### Story:
-As a user, I want to see meteo alerts so that I will be informed about the newest warnings
+As a userEntity, I want to see meteo alerts so that I will be informed about the newest warnings
 
 ### Acceptance Criteria:
 
@@ -10,7 +10,7 @@ As a user, I want to see meteo alerts so that I will be informed about the newes
 - Display 5 meteo alerts per page
 
 ### Story:
-As a user, I want to see details of alerts and map of Poland with the area of warnings marked so 
+As a userEntity, I want to see details of alerts and map of Poland with the area of warnings marked so 
 that I can check if the alert concern me
 
 ### Acceptance Criteria:

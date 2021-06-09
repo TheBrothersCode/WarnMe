@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class TwitterClientConfiguration {
+
     @Value("${my.twitter.baseurl}")
     private String twitterBaseUrl;
     @Value("${my.twitter.timeout}")
@@ -34,7 +35,6 @@ public class TwitterClientConfiguration {
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .build();
     }
-
 
     HttpClient httpClient = HttpClient.create()
             .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, timeout)

@@ -1,8 +1,8 @@
-package com.thedariusz.warnme.twitter.repository;
+package com.thedariusz.warnme.repository.entity;
 
-import com.thedariusz.warnme.twitter.MeteoAlert;
-import com.thedariusz.warnme.twitter.MeteoAlertEntity;
+import com.thedariusz.warnme.MeteoAlert;
 
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -11,23 +11,22 @@ import java.util.stream.Collectors;
 public class MeteoAlertMapper {
 
     private final MeteoAlertOriginMapper meteoAlertOriginMapper = new MeteoAlertOriginMapper();
+    private final MeteoAlertCategoryMapper meteoAlertCategoryMapper = new MeteoAlertCategoryMapper();
 
     public MeteoAlert toModel(MeteoAlertEntity entity) {
-        Set<String> categories = Arrays.stream(entity.getCategories().split(","))
-                .collect(Collectors.toSet());
-
         List<String> media = Arrays.stream(entity.getMedia().split(","))
                 .collect(Collectors.toList());
 
+        final Set<MeteoAlertCategoryEntity> entityCategories = entity.getCategories();
+
         return new MeteoAlert(
                 entity.getLevel(),
-                categories,
+                meteoAlertCategoryMapper.toModel(entityCategories),
                 entity.getCreationDate(),
                 entity.getDescription(),
                 entity.getExternalId(),
                 media,
-                meteoAlertOriginMapper.toModel(entity.getMeteoAlertOriginEntity())
-        );
+                meteoAlertOriginMapper.toModel(entity.getMeteoAlertOriginEntity()));
     }
 
     public MeteoAlertEntity toEntity(MeteoAlert model) {
@@ -36,12 +35,13 @@ public class MeteoAlertMapper {
 
         return new MeteoAlertEntity(
                 model.getLevel(),
-                String.join(",", categories),
+                meteoAlertCategoryMapper.toEntity(categories),
                 model.getCreationDate(),
                 model.getDescription(),
                 model.getExternalId(),
                 String.join(",", media),
-                meteoAlertOriginMapper.toEntity(model.getMeteoAlertOrigin())
+                meteoAlertOriginMapper.toEntity(model.getMeteoAlertOrigin()),
+                OffsetDateTime.now()
         );
     }
 

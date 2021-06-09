@@ -1,11 +1,18 @@
 package com.thedariusz.warnme;
 
-import com.thedariusz.warnme.twitter.MeteoAlert;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class MeteoAlertService {
+
+    private static final Logger logger = LoggerFactory.getLogger(MeteoAlertService.class);
+
+    private static final String EMPTY_STRING = "";
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private final MeteoAlertDao meteoAlertDao;
 
@@ -20,9 +27,12 @@ public class MeteoAlertService {
 
         List<MeteoAlert> existing = meteoAlertDao.fetchExisting(newIds);
 
-        meteoAlerts.stream()
+        final List<MeteoAlert> alertsToSave = meteoAlerts.stream()
                 .filter(meteoAlert -> externalIdEquals(existing, meteoAlert))
-                .forEach(meteoAlertDao::save);
+                .collect(Collectors.toList());
+
+        logger.info("Saving {} new alerts", alertsToSave.size());
+        alertsToSave.forEach(meteoAlertDao::save);
     }
 
     public List<MeteoAlert> getMeteoAlertsFromDb() {
@@ -36,5 +46,11 @@ public class MeteoAlertService {
             }
         }
         return true;
+    }
+
+    public String getRefreshDate() {
+        return meteoAlertDao.getLatestCreatedAt()
+                .map(DATE_TIME_FORMATTER::format)
+                .orElse(EMPTY_STRING);
     }
 }
